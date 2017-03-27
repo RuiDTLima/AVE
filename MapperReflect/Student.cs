@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace MapperReflect
 {
-    class Program
+    class Student
     {
-        static void Main(string[] args)
-        {
-        }
+        public string Name { get; set; }
+        public int Nr { get; set; }
     }
 }
