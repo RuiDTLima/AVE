@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace MapperReflect
 {
-    class Person
+    class Student
     {
+
+        [Mapping.Properties]
         public string Name { get; set; }
-        public int Id { get; set; }
+
+        [Mapping.Properties]
+        public int Nr { get; set; }
     }
 }
