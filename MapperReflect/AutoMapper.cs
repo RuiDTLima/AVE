@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MapperReflect
 {
 
-    class AutoMapper
+    public class AutoMapper
     {
         public static IMapper Build(Type source, Type destination)
         {
