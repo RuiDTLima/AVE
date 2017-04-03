@@ -8,8 +8,10 @@ namespace MapperReflect
 {
     class Teacher
     {
-        //Teacher(int nr, string name) {... }
+        [Mapping.Properties]
         public string Name { get; set; }
+
+        [Mapping.Properties]
         public int Id { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace MapperReflect
 {
@@ -9,21 +11,27 @@ namespace MapperReflect
 
         private Type dest { get; set; }
 
+        public Mapping mapAtribute { get; private set; }
+
+        private Dictionary<string, string> dict = new Dictionary<string, string>();
+
         public Mapper(Type source, Type destination)
         {
             src = source;
             dest = destination;
         }
 
-
+        //Falta aplicar a parte do bind e do match.
         public object Map(object src)
         {
             if (!src.GetType().Equals(this.src))
                 return null;
+            ArrayList p = new ArrayList();
             PropertyInfo[] srcProperties = src.GetType().GetProperties();
             object aux = Activator.CreateInstance(dest);
             PropertyInfo[] destProperties = dest.GetProperties();
             PropertyInfo destino, origem;
+
             for (int i = 0; i < destProperties.Length; i++)
             {
                 for (int j = 0; j < srcProperties.Length; j++) { 
@@ -36,10 +44,26 @@ namespace MapperReflect
             return aux;
         }
 
-
         public object[] Map(object[] src)
         {
-            throw new NotImplementedException();
+            object[] obj = new object[src.Length];
+            for (int i = 0; i < src.Length; ++i) {
+                obj[i] = Map(src[i]);
+            }
+            return obj;
         }
+
+        public Mapper Bind(Mapping m)
+        {
+            mapAtribute = m;
+            return this;
+        }
+
+        public Mapper Match(string nameFrom, string nameDest)
+        {
+            dict.Add(nameFrom, nameDest);
+            return this;
+        }
+
     }
 }
