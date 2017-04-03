@@ -48,6 +48,9 @@
     <Compile Include="Mapper.cs" />
     <Compile Include="AutoMapper.cs" />
     <Compile Include="Mapping.cs" />
+    <Compile Include="MappingFields.cs" />
+    <Compile Include="MappingProperties.cs" />
+    <Compile Include="MappingToMap.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Student.cs" />
