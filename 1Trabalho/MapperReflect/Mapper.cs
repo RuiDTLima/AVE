@@ -11,7 +11,7 @@ namespace MapperReflect
 
         private Type dest { get; set; }
 
-        public Mapping mapAtribute { get; private set; }
+        private Attribute mapAtribute { get; set; }
 
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
@@ -53,7 +53,7 @@ namespace MapperReflect
             return obj;
         }
 
-        public Mapper Bind(Mapping m)
+        public Mapper Bind(Attribute m)
         {
             mapAtribute = m;
             return this;

@@ -9,7 +9,10 @@ namespace MapperReflect
 
     class Mapping
     {
+        [AttributeUsage(AttributeTargets.Property)]
         internal class Properties : Attribute { }
+
+        [AttributeUsage(AttributeTargets.Property)]
         internal class Fields : Attribute {}
         
 
