@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MapperReflect
 {
-    class Mapper : IMapper
+    public class Mapper : IMapper
     {
         private Type src { get; set; }
 
@@ -21,21 +22,25 @@ namespace MapperReflect
         //Falta aplicar a parte do bind e do match.
         public object Map(object src)
         { 
-            return mapAtribute.Map(src);
+            //if (src != null)
+             return mapAtribute.Map(src, dict);
+           // return null;
         }
 
         public object[] Map(object[] src)
         {
-            return mapAtribute.Map(src);
+            return mapAtribute.Map(src, dict);
         }
 
-        public Mapper Bind(Mapping m)
+        public IMapper Bind(Mapping m)
         {
             mapAtribute = m;
+            mapAtribute.src = this.src;
+            mapAtribute.dest = this.dest;
             return this;
         }
 
-        public Mapper Match(string nameFrom, string nameDest)
+        public IMapper Match(string nameFrom, string nameDest)
         {
             dict.Add(nameFrom, nameDest);
             return this;

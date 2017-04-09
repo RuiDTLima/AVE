@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace MapperReflect
 {
     class MappingFields : Mapping
     {
-        public override object Map(object src)
+        public override object Map(object src, Dictionary<String, String> dict)
         {
             if (!src.GetType().Equals(this.src))
                 return null;
