@@ -5,26 +5,29 @@ namespace MapperReflect
 {
     public class Mapper : IMapper
     {
-        private Type src { get; set; }
+        private Type src;
+        // private Type src { get; set; }
 
-        private Type dest { get; set; }
+        private Type dest;
+        //private Type dest { get; set; }
 
-        private Mapping mapAtribute { get; set; }
+        private Mapping mapAtribute;
+
+        //private Mapping mapAtribute { get { return mapAtributeAux; } set { mapAtributeAux = new MappingProperties(); } }
 
         private Dictionary<string, string> dict = new Dictionary<string, string>();
+
 
         public Mapper(Type source, Type destination)
         {
             src = source;
             dest = destination;
+            mapAtribute = new MappingProperties(source, destination);
         }
 
-        //Falta aplicar a parte do bind e do match.
         public object Map(object src)
         { 
-            //if (src != null)
              return mapAtribute.Map(src, dict);
-           // return null;
         }
 
         public object[] Map(object[] src)

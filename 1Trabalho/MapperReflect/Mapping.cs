@@ -5,10 +5,17 @@ namespace MapperReflect
 {
     public class Mapping
     {
-        
         public virtual Type src { get; set; }
 
         public virtual Type dest { get; set; }
+
+        public Mapping() { }
+
+        public Mapping(Type source, Type destino)
+        {
+            src = source;
+            dest = destino;
+        }
 
         public virtual object Map(object src, Dictionary<String, String> dict) {
             throw new NotImplementedException();

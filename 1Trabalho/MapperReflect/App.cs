@@ -2,7 +2,7 @@
 
 namespace MapperReflect
 {
-    class App
+    public class App
     {
         static void Main(string[] args)
         {

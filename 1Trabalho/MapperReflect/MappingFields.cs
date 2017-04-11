@@ -4,8 +4,17 @@ using System.Reflection;
 
 namespace MapperReflect
 {
-    class MappingFields : Mapping
+    public class MappingFields : Mapping
     {
+        public MappingFields()
+        {
+
+        }
+
+        public MappingFields(Type source, Type destino) : base(source, destino)
+        {
+        }
+
         public override object Map(object src, Dictionary<String, String> dict)
         {
             if (!src.GetType().Equals(this.src))

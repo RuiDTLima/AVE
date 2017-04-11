@@ -5,8 +5,17 @@ using System.Reflection;
 
 namespace MapperReflect
 {
-    class MappingToMap : Mapping
+    public class MappingToMap : Mapping
     {
+        public MappingToMap()
+        {
+
+        }
+
+        public MappingToMap(Type source, Type destino) : base(source, destino)
+        {
+        }
+
         public override object Map(object src, Dictionary<String, String> dict)
         {
             if (!src.GetType().Equals(this.src))
@@ -41,17 +50,7 @@ namespace MapperReflect
                         {
                             ((FieldInfo)destino).SetValue(aux, ((FieldInfo)origem).GetValue(src));
                         }
-                      /* if (destino.GetType() == typeof(PropertyInfo))
-                        {
-                            ((PropertyInfo)destino).SetValue(aux, ((PropertyInfo)origem).GetValue(src));
-                        }
-                       else if (destino.GetType() == typeof(FieldInfo))
-                        {
-                            ((FieldInfo)destino).SetValue(aux, ((FieldInfo)origem).GetValue(src));
-                        }*/
                     }
-                        //destino = origem;
-                        //destino.SetValue(aux, origem.GetValue(src));
                 }
             }
             return aux;
