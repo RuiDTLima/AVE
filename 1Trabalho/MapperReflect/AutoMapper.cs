@@ -2,12 +2,11 @@
 
 namespace MapperReflect
 {
-
     public class AutoMapper
     {
-        static IMapper Build(Type source, Type destination)
+        public static IMapper Build(Type klassSrc, Type klassDest)
         {
-             return new Mapper(source, destination);
+             return new Mapper(klassSrc, klassDest);
         }
     }
 }
