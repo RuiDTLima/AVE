@@ -6,10 +6,9 @@ namespace MapperReflect
     {
         static void Main(string[] args)
         {
-            Mapper m = (Mapper)AutoMapper.Build(typeof(Student),typeof(Person)).Bind(new MappingProperties()).Match("Nr", "Id");
-            Student s = new Student { Nr = 27721, Name = "Ze Manel" };
-            Person p = (Person)m.Map(s);
-            //Assert.Equal(s.Name, p.Name);
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Subject)).Bind(new MappingProperties()).Match("Nr", "Id");
+            Teacher s = new Teacher { Id = 27721, Name = "Ze Manel" };
+            Subject p = (Subject)m.Map(s);
         }
     }
 }

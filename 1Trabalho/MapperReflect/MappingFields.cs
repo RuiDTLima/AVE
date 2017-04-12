@@ -1,31 +1,76 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace MapperReflect
 {
-    class MappingFields : Mapping
+    public class MappingFields : Mapping
     {
-        public override object Map(object src, )
-        {
-            if (!src.GetType().Equals(this.src))
-                return null;
-            FieldInfo[] srcFields = src.GetType().GetFields();
-            object aux = Activator.CreateInstance(dest);
-            FieldInfo[] destFields = dest.GetFields();
-            FieldInfo destino, origem;
+        public MappingFields(){}
 
-            for (int i = 0; i < destFields.Length; i++)
-            {
-                for (int j = 0; j < srcFields.Length; j++)
-                {
-                    destino = destFields[i];
-                    origem = srcFields[j];
-                    if (destino.GetType().Equals(origem.GetType()) && destino.Name.Equals(origem.Name))
-                        destino.SetValue(aux, origem.GetValue(src));
+        public MappingFields(Type source, Type destino) : base(source, destino){}
+
+        public override object Map(object srcObject, Dictionary<String, String> dict){
+            FieldInfo[] srcFields;
+            FieldInfo destiny, origin;
+
+            /* Get destiny type object. */
+
+            destObject = init(srcObject, out srcFields);
+
+            /* For each source field map it's corresponding field in destination. */
+
+            for (int i = 0; i < srcFields.Length; i++){
+                
+                /* Get current destination field. */
+
+                origin = srcFields[i];
+                dict.TryGetValue(origin.Name, out currentName);
+                destiny = currentName == null ? dest.GetField(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) :
+                                                 dest.GetField(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (destiny == null) continue;
+
+                currentDestType = destiny.GetType();
+                currentSrcType = origin.GetType();
+
+                /* If the type is equal between source and destination current fields then sets values
+                 * else checks if their types are not primitive types and are compatible and map them. */
+
+                if (currentDestType.Equals(currentSrcType))
+                    destiny.SetValue(destObject, origin.GetValue(srcObject));
+                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && !currentDestType.IsSubclassOf(currentSrcType)){
+                    IMapper cache;
+                    KeyValuePair<Type, Type> typePair = new KeyValuePair<Type, Type>(currentSrcType, currentDestType);
+                    cacheContainer.TryGetValue(typePair, out cache);
+
+                    if (cache == null) {
+                        cache = AutoMapper.Build(currentSrcType, currentDestType);
+                        cacheContainer.Add(typePair, cache);
+                    }
+
+                    cache.Map(origin);
                 }
             }
-            return aux;
+            return destObject;
         }
+
+        public object init(object src, out FieldInfo[] srcFields){
+            srcFields = null;
+            if (!src.GetType().Equals(this.src))
+                return null;
+
+            srcFields = src.GetType().GetFields();
+            if (dest.GetConstructor(Type.EmptyTypes) != null)
+                return Activator.CreateInstance(dest);
+            return getAvailableConstructor(srcFields).Invoke(new Object[srcFields.Length]);
+        }
+
+        private ConstructorInfo getAvailableConstructor(FieldInfo[] srcFields){
+            int size = srcFields.Length;
+            Type[] propertiesTypes = new Type[size];
+            for (int i = 0; i < size; ++i) propertiesTypes[i] = srcFields[i].FieldType;
+            return dest.GetConstructor(propertiesTypes);
+        }
+
     }
 }

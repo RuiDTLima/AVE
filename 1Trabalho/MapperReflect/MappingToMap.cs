@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace MapperReflect
 {
-    class MappingToMap : Mapping
+    public class MappingToMap : Mapping
     {
-        public override object Map(object src)
+        public MappingToMap() {}
+
+        public MappingToMap(Type source, Type destino) : base(source, destino) {}
+
+        public override object Map(object src, Dictionary<String, String> dict)
         {
             if (!src.GetType().Equals(this.src))
                 return null;
@@ -32,26 +36,17 @@ namespace MapperReflect
                     origem = (MemberInfo)srcAttributes[j];
                     if (destino.GetType().Equals(origem.GetType()) && destino.Name.Equals(origem.Name))
                     {
-                       //destino.GetType().GetMethod("SetValue").Invoke(aux, new object[] { origem.GetType().GetMethod("GetValue").Invoke(src, null) });
+                        //destino.GetType().GetMethod("SetValue").Invoke(aux, new object[] { origem.GetType().GetMethod("GetValue").Invoke(src, null) });
                         PropertyInfo pi = origem as PropertyInfo;
                         if (pi != null)
                         {
                             pi.SetValue(aux, origem);
-                        } else
+                        }
+                        else
                         {
                             ((FieldInfo)destino).SetValue(aux, ((FieldInfo)origem).GetValue(src));
                         }
-                      /* if (destino.GetType() == typeof(PropertyInfo))
-                        {
-                            ((PropertyInfo)destino).SetValue(aux, ((PropertyInfo)origem).GetValue(src));
-                        }
-                       else if (destino.GetType() == typeof(FieldInfo))
-                        {
-                            ((FieldInfo)destino).SetValue(aux, ((FieldInfo)origem).GetValue(src));
-                        }*/
                     }
-                        //destino = origem;
-                        //destino.SetValue(aux, origem.GetValue(src));
                 }
             }
             return aux;
