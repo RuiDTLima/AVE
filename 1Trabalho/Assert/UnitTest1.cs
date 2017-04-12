@@ -1,15 +1,15 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Assert
+namespace Trabalho1Tests
 {
     [TestClass]
-    public class Assert
+    public class Test
     {
         [TestMethod]
-        public static void Equals(String first, String second)
-        {
-            Assert.Equals(first, second);
+        public static void M() {
+         
+            Assert.AreEqual(1, 1);
         }
     }
 }
