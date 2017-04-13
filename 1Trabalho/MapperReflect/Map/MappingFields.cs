@@ -6,17 +6,15 @@ namespace MapperReflect
 {
     public class MappingFields : Mapping
     {
-        public MappingFields(){}
-
-        public MappingFields(Type source, Type destino) : base(source, destino){}
-
-        public override object Map(object srcObject, Dictionary<String, String> dict){
+        public override object Map(object srcObject, Type src, Type dest, Dictionary<String, String> dict){
             FieldInfo[] srcFields;
             FieldInfo destiny, origin;
+            String currentName;
+            Type currentDestType, currentSrcType;
 
             /* Get destiny type object. */
 
-            destObject = init(srcObject, out srcFields);
+            object destObject = init(srcObject, src, dest, out srcFields);
 
             /* For each source field map it's corresponding field in destination. */
 
@@ -54,18 +52,18 @@ namespace MapperReflect
             return destObject;
         }
 
-        public object init(object src, out FieldInfo[] srcFields){
+        public object init(object srcObject, Type src, Type dest, out FieldInfo[] srcFields) {
             srcFields = null;
-            if (!src.GetType().Equals(this.src))
+            if (!srcObject.GetType().Equals(src))
                 return null;
 
-            srcFields = src.GetType().GetFields();
+            srcFields = srcObject.GetType().GetFields();
             if (dest.GetConstructor(Type.EmptyTypes) != null)
                 return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcFields).Invoke(new Object[srcFields.Length]);
+            return getAvailableConstructor(srcFields, dest).Invoke(new Object[srcFields.Length]);
         }
 
-        private ConstructorInfo getAvailableConstructor(FieldInfo[] srcFields){
+        private ConstructorInfo getAvailableConstructor(FieldInfo[] srcFields, Type dest) {
             int size = srcFields.Length;
             Type[] propertiesTypes = new Type[size];
             for (int i = 0; i < size; ++i) propertiesTypes[i] = srcFields[i].FieldType;

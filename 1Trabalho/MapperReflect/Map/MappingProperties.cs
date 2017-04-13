@@ -7,17 +7,16 @@ namespace MapperReflect
 {
     public class MappingProperties : Mapping
     {
-        public MappingProperties() {}
 
-        public MappingProperties(Type source, Type destino) : base(source, destino) {}
-
-        public override object Map(object srcObject, Dictionary<String, String> dict){
+        public override object Map(object srcObject, Type src, Type dest, Dictionary<String, String> dict){
             PropertyInfo[] srcProperties;
             PropertyInfo destiny, origin;
+            String currentName;
+            Type currentDestType, currentSrcType;
 
             /* Get destiny type object. */
 
-            destObject = init(srcObject, out srcProperties);
+            object destObject = init(srcObject, src, dest, out srcProperties);
 
             /* For each source property map it's corresponding property in destination. */
 
@@ -54,18 +53,19 @@ namespace MapperReflect
             return destObject;
         }
 
-        public object init(object src, out PropertyInfo[] srcProperties) {
+        public object init(object srcObject, Type src, Type dest, out PropertyInfo[] srcProperties) {
             srcProperties = null;
-            if (!src.GetType().Equals(this.src))
+            if (!srcObject.GetType().Equals(src))
                 return null;
 
-            srcProperties = src.GetType().GetProperties();
+            srcProperties = srcObject.GetType().GetProperties();
             if (dest.GetConstructor(Type.EmptyTypes) != null)
                 return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcProperties).Invoke(new Object[srcProperties.Length]);
+            return getAvailableConstructor(srcProperties, dest).Invoke(new Object[srcProperties.Length]);
         }
 
-        private ConstructorInfo getAvailableConstructor(PropertyInfo[] srcProperties){
+        private ConstructorInfo getAvailableConstructor(PropertyInfo[] srcProperties, Type dest)
+        {
             int size = srcProperties.Length;
             Type[] propertiesTypes = new Type[size];
             for (int i = 0; i < size; ++i) propertiesTypes[i] = srcProperties[i].PropertyType;
