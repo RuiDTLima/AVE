@@ -14,7 +14,7 @@ namespace MapperReflect
             Type src = srcObject.GetType(), dest = destObject.GetType();
             PropertyInfo[] srcProperties = srcObject.GetType().GetProperties();
             PropertyInfo destiny, origin;
-            String currentName;
+            string currentName;
             Type currentDestType, currentSrcType;
 
             /* For each source property map it's corresponding property in destination. */
@@ -22,14 +22,15 @@ namespace MapperReflect
 
                 /* Get current destination property. */
                 origin = srcProperties[i];
-                if (attr != null && !origin.IsDefined(attr)) continue;
+                object value = origin.GetValue(srcObject);
+
+                if (attr != null && !origin.IsDefined(attr) || value == null) continue;
+
                 dict.TryGetValue(origin.Name, out currentName);
                 destiny = currentName == null ? dest.GetProperty(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance): 
                                                  dest.GetProperty(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
                 if (destiny == null || (attr != null && !destiny.IsDefined(attr))) continue;
-                object value = origin.GetValue(srcObject);
-
+              
                 currentDestType = destiny.PropertyType;
                 currentSrcType = origin.PropertyType;
 
@@ -37,7 +38,7 @@ namespace MapperReflect
                  * else checks if their types are not primitive types and are compatible and map them. */
                 if (currentDestType.Equals(currentSrcType))
                     destiny.SetValue(destObject, value);
-                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && !currentDestType.IsSubclassOf(currentSrcType) && value != null) {
+                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && currentSrcType != typeof(string) && currentDestType != typeof(string) && !currentDestType.IsSubclassOf(currentSrcType)) {
                     IMapper aux = AutoMapper.Build(currentSrcType, currentDestType);
                     destiny.SetValue(destObject, joinData(aux.Bind(Mapping.Properties).Map(value), aux.Bind(Mapping.Fields).Map(value)));
                 }

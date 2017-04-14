@@ -21,8 +21,9 @@ namespace MapperReflect
                 
                 /* Get current destination field. */
                 origin = srcFields[i];
-                if (attr != null && !origin.IsDefined(attr)) continue;
                 object value = origin.GetValue(srcObject);
+                if (attr != null && !origin.IsDefined(attr) || value == null) continue;
+                
 
                 dict.TryGetValue(origin.Name, out currentName);
                 destiny = currentName == null ? dest.GetField(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) :
@@ -37,7 +38,7 @@ namespace MapperReflect
                  * else checks if their types are not primitive types and are compatible and map them. */
                 if (currentDestType == currentSrcType)
                     destiny.SetValue(destObject, value);
-                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && !currentDestType.IsSubclassOf(currentSrcType) && value != null){
+                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && currentSrcType != typeof(string) && currentDestType != typeof(string) && !currentDestType.IsSubclassOf(currentSrcType)){
                     IMapper aux = AutoMapper.Build(currentSrcType, currentDestType);
                     destiny.SetValue(destObject, joinData(aux.Bind(Mapping.Properties).Map(value), aux.Bind(Mapping.Fields).Map(value)));
                 }
