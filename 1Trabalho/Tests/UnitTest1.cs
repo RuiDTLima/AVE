@@ -28,9 +28,13 @@ namespace Tests
 
         public struct Test {
             public string Name { get; set; }
+
+            [ToMap]
             public string _Name;
 
             public int Id { get; set; }
+
+            [ToMap]
             public int _Id;
         }
 
@@ -123,15 +127,64 @@ namespace Tests
 
         /************************************** CostumAttributeTests *****************************************/
         [TestMethod]
-        public void TestToMapAttribute() {
+        public void TestToMapAttribute()
+        {
             Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute))).Match("Nr", "Id");
             Student s = new Student { Nr = 27721, Name = "António" };
-            Person p = (Person)m.Map(s); 
+            Person p = (Person)m.Map(s);
 
             Assert.AreEqual(s.Name, p.Name);
             Assert.AreEqual(s.Nr, p.Id);
         }
-        
+
+        [TestMethod]
+        public void TestToMapAttributeArray()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute))).Match("Nr", "Id");
+            Student[] stds = { new Student { _Nr = 27721, _Name = "António" }, new Student { _Nr = 11111, _Name = "Joana" } };
+            Person[] ps = (Person[])m.Map(stds);
+
+            Assert.AreEqual(stds[0]._Name, ps[0]._Name);
+            Assert.AreEqual(stds[0]._Nr, ps[0]._Id);
+
+            Assert.AreEqual(stds[1]._Name, ps[1]._Name);
+            Assert.AreEqual(stds[1]._Nr, ps[1]._Id);
+        }
+
+        [TestMethod]
+        public void TestToMapAttributeWithValueType()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Test), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute)));
+            Test s = new Test { _Id = 27721, _Name = "António" };
+            Person p = (Person)m.Map(s);
+            Assert.AreEqual(s._Name, p._Name);
+            Assert.AreEqual(s._Id, p._Id);
+        }
+
+        [TestMethod]
+        public void TestToMapAttributeWithDifferentReferences()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute))).Match("_Nr", "_Id"); ;
+            Student s = new Student { _Nr = 27721, _Name = "António", _Org = new School { Name = "ISEL", MembersIds = new int[] { 1, 2 } } };
+            Person p = (Person)m.Map(s);
+            Assert.AreEqual(s._Name, p._Name);
+            Assert.AreEqual(s._Nr, p._Id);
+            Assert.AreEqual(s._Org.MembersIds[0], p._Org.MembersIds[0]);
+            Assert.AreEqual(s._Org.MembersIds[1], p._Org.MembersIds[1]);
+            Assert.AreEqual(s._Org.Name, p._Org.Name);
+        }
+
+        [TestMethod]
+        public void TestToMapAttributeSameTypeSameName()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute)));
+            Teacher t = new Teacher { Id = 27721, Name = "António" };
+            Person p = (Person)m.Map(t);
+
+            Assert.AreEqual(t.Name, p.Name);
+            Assert.AreEqual(t.Id, p.Id);
+        }
+
 
     }
 }
