@@ -40,7 +40,7 @@ namespace MapperReflect
                     destiny.SetValue(destObject, value);
                 else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && currentSrcType != typeof(string) && currentDestType != typeof(string) && !currentDestType.IsSubclassOf(currentSrcType)) {
                     IMapper aux = AutoMapper.Build(currentSrcType, currentDestType);
-                    destiny.SetValue(destObject, joinData(aux.Bind(Mapping.Properties).Map(value), aux.Bind(Mapping.Fields).Map(value)));
+                    destiny.SetValue(destObject, joinData(aux.Map(value), aux.Bind(Mapping.Fields).Map(value)));
                 }
             }
         }
