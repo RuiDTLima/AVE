@@ -55,7 +55,6 @@
     <Compile Include="Map\Mapping.cs" />
     <Compile Include="Map\MappingFields.cs" />
     <Compile Include="Map\MappingProperties.cs" />
-    <Compile Include="Map\MappingToMap.cs" />
     <Compile Include="Types\Organization.cs" />
     <Compile Include="Types\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

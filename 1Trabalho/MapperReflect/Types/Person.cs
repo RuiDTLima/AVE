@@ -4,14 +4,17 @@ namespace MapperReflect
 {
     public class Person
     {
-        [ToMap]
+        [ToMapAttribute]
         public string Name { get; set; }
-        [ToMap]
+        [ToMapAttribute]
+        public string _Name;
+        [ToMapAttribute]
         public int Id { get; set; }
-
+        [ToMapAttribute]
+        public int _Id;
         public Subject[] Subjects { get; set; }
 
-        private Organization Org;
+        public Organization _Org;
         
     }
 }

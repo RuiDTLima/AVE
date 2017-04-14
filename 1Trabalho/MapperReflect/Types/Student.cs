@@ -6,11 +6,16 @@ namespace MapperReflect
     {
         public Course[] Courses { get; set; }
 
-        [ToMap]
+        [ToMapAttribute]
         public string Name { get; set; }
-        [ToMap]
+        [ToMapAttribute]
+        public string _Name;
+        [ToMapAttribute]
         public int Nr { get; set; }
+        [ToMapAttribute]
+        public int _Nr;
 
-        private School Org;
+        public School Org { get; set; }
+        public School _Org;
     }
 }

@@ -6,69 +6,42 @@ namespace MapperReflect
 {
     public class MappingFields : Mapping
     {
-        public override object Map(object srcObject, Type src, Type dest, Dictionary<String, String> dict){
-            FieldInfo[] srcFields;
+        public override void Map(object srcObject, object destObject, Dictionary<String, String> dict) {
+            Map(srcObject, destObject, null, dict);
+        }
+        public override void Map(object srcObject, object destObject, Type attr, Dictionary<String, String> dict){
+            Type src = srcObject.GetType(), dest = destObject.GetType();
+            FieldInfo[] srcFields = srcObject.GetType().GetFields();
             FieldInfo destiny, origin;
             String currentName;
             Type currentDestType, currentSrcType;
-
-            /* Get destiny type object. */
-
-            object destObject = init(srcObject, src, dest, out srcFields);
-
+            
             /* For each source field map it's corresponding field in destination. */
-
             for (int i = 0; i < srcFields.Length; i++){
                 
                 /* Get current destination field. */
-
                 origin = srcFields[i];
+                if (attr != null && !origin.IsDefined(attr)) continue;
+                object value = origin.GetValue(srcObject);
+
                 dict.TryGetValue(origin.Name, out currentName);
                 destiny = currentName == null ? dest.GetField(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) :
                                                  dest.GetField(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (destiny == null) continue;
 
-                currentDestType = destiny.GetType();
-                currentSrcType = origin.GetType();
+                if (destiny == null || (attr != null && !destiny.IsDefined(attr))) continue;
+
+                currentDestType = destiny.FieldType;
+                currentSrcType = origin.FieldType;
 
                 /* If the type is equal between source and destination current fields then sets values
                  * else checks if their types are not primitive types and are compatible and map them. */
-
-                if (currentDestType.Equals(currentSrcType))
-                    destiny.SetValue(destObject, origin.GetValue(srcObject));
-                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && !currentDestType.IsSubclassOf(currentSrcType)){
-                    IMapper cache;
-                    KeyValuePair<Type, Type> typePair = new KeyValuePair<Type, Type>(currentSrcType, currentDestType);
-                    cacheContainer.TryGetValue(typePair, out cache);
-
-                    if (cache == null) {
-                        cache = AutoMapper.Build(currentSrcType, currentDestType);
-                        cacheContainer.Add(typePair, cache);
-                    }
-
-                    cache.Map(origin);
+                if (currentDestType == currentSrcType)
+                    destiny.SetValue(destObject, value);
+                else if (!currentSrcType.IsValueType && !currentDestType.IsValueType && !currentDestType.IsSubclassOf(currentSrcType) && value != null){
+                    IMapper aux = AutoMapper.Build(currentSrcType, currentDestType);
+                    destiny.SetValue(destObject, joinData(aux.Bind(Mapping.Properties).Map(value), aux.Bind(Mapping.Fields).Map(value)));
                 }
             }
-            return destObject;
         }
-
-        public object init(object srcObject, Type src, Type dest, out FieldInfo[] srcFields) {
-            srcFields = null;
-            if (!srcObject.GetType().Equals(src))
-                return null;
-
-            srcFields = srcObject.GetType().GetFields();
-            if (dest.GetConstructor(Type.EmptyTypes) != null)
-                return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcFields, dest).Invoke(new Object[srcFields.Length]);
-        }
-
-        private ConstructorInfo getAvailableConstructor(FieldInfo[] srcFields, Type dest) {
-            int size = srcFields.Length;
-            Type[] propertiesTypes = new Type[size];
-            for (int i = 0; i < size; ++i) propertiesTypes[i] = srcFields[i].FieldType;
-            return dest.GetConstructor(propertiesTypes);
-        }
-
     }
 }
