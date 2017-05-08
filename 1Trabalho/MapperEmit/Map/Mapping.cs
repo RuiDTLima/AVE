@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Reflection.Emit;
 
 namespace MapperEmit
 {
@@ -8,6 +9,8 @@ namespace MapperEmit
 
         public static MappingFields Fields = new MappingFields();
         public static MappingProperties Properties = new MappingProperties();
+        public static FieldEmitter FieldsEmit = new FieldEmitter();
+        public static PropertiesEmitter PropertiesEmi = new PropertiesEmitter();
         private Type Attribute { get; set; }
         
         public Mapping(Type Attribute) {
@@ -21,6 +24,15 @@ namespace MapperEmit
             if (Attribute != null)
                 Fields.Map(srcObject, destObject, Attribute, dict);
             Properties.Map(srcObject, destObject, Attribute, dict);
+        }
+
+        /* By default maps properties, but if Attribute isn't null maps fields as well.
+         * Mapping with code emition. */
+        public virtual void Map(object srcObject, object destObject, TypeBuilder srcBuilder , TypeBuilder destBuilder , Dictionary<String, String> dict)
+        {
+            if (Attribute != null)
+                FieldsEmit.Map(srcObject, destObject, srcBuilder, destBuilder, Attribute, dict);
+            PropertiesEmi.Map(srcObject, destObject, srcBuilder, destBuilder, Attribute, dict);
         }
 
         /* To be redefined by extedend classes. */
