@@ -1,12 +1,38 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MapperReflect;
+using MapperEmit;
 
 namespace Tests
 {
     [TestClass]
-    public class UnitTest1 { 
-    
+    public class UnitTest1 {
+
+        public struct Test
+        {
+            public string Name { get; set; }
+
+            [ToMap]
+            public string _Name;
+
+            public int Id { get; set; }
+
+            [ToMap]
+            public int _Id;
+        }
+        /************************************** GeneralTests *************************************************/
+        [TestMethod]
+        public void TestNotPossibleType() {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(int), typeof(Person));
+            Assert.AreEqual(m, null);
+        }
+
+        [TestMethod]
+        public void TestCache() {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
+            Mapper mCache = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
+            Assert.AreSame(m, mCache);
+        }
+
         /************************************** PropertiesTests **********************************************/
         [TestMethod]
         public void TestPropertiesEqualTypesDifferentNames()  {
@@ -26,17 +52,7 @@ namespace Tests
             Assert.AreEqual(s.Id, p.Id);
         }
 
-        public struct Test {
-            public string Name { get; set; }
 
-            [ToMap]
-            public string _Name;
-
-            public int Id { get; set; }
-
-            [ToMap]
-            public int _Id;
-        }
 
         [TestMethod]
         public void TestPropertiesWithValueType() {

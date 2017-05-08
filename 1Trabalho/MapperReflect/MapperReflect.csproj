@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{909B939D-BB76-4D62-A83D-874D5A4F36C5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MapperReflect</RootNamespace>
     <AssemblyName>MapperReflect</AssemblyName>
@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
     <Compile Include="Cache\Cache.cs" />
     <Compile Include="Types\Course.cs" />
     <Compile Include="Map\IMapper.cs" />
@@ -63,9 +62,6 @@
     <Compile Include="Types\Subject.cs" />
     <Compile Include="Types\Teacher.cs" />
     <Compile Include="Types\ToMapAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
