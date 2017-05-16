@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MapperEmit.Emiter;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -7,25 +8,22 @@ using System.Reflection.Emit;
 namespace MapperEmit {
     public class Mapper : IMapper {
         private Type src;
-        private TypeBuilder srcBuilder;
-
         private Type dest;
-        private TypeBuilder destBuilder;
 
+        private ModuleBuilder mb;
         private Mapping mapAtribute;
-
+        private Emitter emitAtribute;
+        private Dictionary<KeyValuePair<Type, Type>, MappingEmit> cacheEmittedClasses = new Dictionary<KeyValuePair<Type, Type>, MappingEmit>();
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
         public Mapper(Type source, Type destination) {
             src = source;
             dest = destination;
-            mapAtribute = new Mapping();
         }
 
         public Mapper(Type source, Type destination, ModuleBuilder mb) : this(source, destination) {
-            srcBuilder = mb.DefineType(src.Name, TypeAttributes.Public);
-            destBuilder = mb.DefineType(dest.Name, TypeAttributes.Public);
-
+            this.mb = mb;
+            cacheEmittedClasses.TryGetValue(new KeyValuePair<Type, Type>(source, destination), out mapAtribute);
         }
 
         /* Verify if it's possible to map the object received in parameters in the destination type,
@@ -34,10 +32,7 @@ namespace MapperEmit {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
             object destObject = init(dest, getValidMembers(src.GetMembers()));
-            if(srcBuilder == null)
-                mapAtribute.Map(srcObject, destObject, dict);
-            else
-                mapAtribute.Map(srcObject, destObject, srcBuilder, destBuilder, dict);
+               Type mapperClass = mapAtribute.EmitClass(src, dest, mb, dict);
             return destObject;
         }
 
@@ -51,7 +46,7 @@ namespace MapperEmit {
         }
 
         /* Change the current mapAtribute. */
-        public IMapper Bind(Mapping m) {
+        public IMapper Bind(Emitter m) {
             mapAtribute = m;
             return this;
         }

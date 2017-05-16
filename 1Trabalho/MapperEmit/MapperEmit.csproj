@@ -44,13 +44,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\Cache.cs" />
-    <Compile Include="Emitter\AutoMapperEmitter.cs" />
-    <Compile Include="Emitter\FieldEmitter.cs" />
-    <Compile Include="Emitter\PropertiesEmitter.cs" />
-    <Compile Include="Map\AutoMapper.cs" />
+    <Compile Include="Emiter\Emitter.cs" />
+    <Compile Include="Map\AutoMapperEmitter.cs" />
+    <Compile Include="Emiter\FieldEmitter.cs" />
+    <Compile Include="Emiter\PropertiesEmitter.cs" />
     <Compile Include="Map\IMapper.cs" />
     <Compile Include="Map\Mapper.cs" />
     <Compile Include="Map\Mapping.cs" />
+    <Compile Include="Map\MappingEmit.cs" />
     <Compile Include="Map\MappingFields.cs" />
     <Compile Include="Map\MappingProperties.cs" />
     <Compile Include="Program.cs" />
