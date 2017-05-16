@@ -5,7 +5,7 @@ namespace MapperEmit {
 
         object[] Map(object[] src);
 
-        IMapper Bind(Emiter.Emitter m);
+        IMapper Bind(Mapping m);
 
         IMapper Match(String nameFrom, String nameDest);
     }

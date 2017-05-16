@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MapperEmit.Emiter
 {
-    public class FieldEmitter : Emitter
+    public class FieldEmitter : IEmitter
     {
         public Type EmitClass(Type srcType, Type destType, Type attr, ModuleBuilder moduleBuilder, Dictionary<string, string> dict)
         {

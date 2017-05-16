@@ -12,18 +12,12 @@ namespace MapperEmit {
 
         private ModuleBuilder mb;
         private Mapping mapAtribute;
-        private Emitter emitAtribute;
-        private Dictionary<KeyValuePair<Type, Type>, MappingEmit> cacheEmittedClasses = new Dictionary<KeyValuePair<Type, Type>, MappingEmit>();
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
-        public Mapper(Type source, Type destination) {
+        public Mapper(Type source, Type destination, ModuleBuilder mb) {
             src = source;
             dest = destination;
-        }
-
-        public Mapper(Type source, Type destination, ModuleBuilder mb) : this(source, destination) {
             this.mb = mb;
-            cacheEmittedClasses.TryGetValue(new KeyValuePair<Type, Type>(source, destination), out mapAtribute);
         }
 
         /* Verify if it's possible to map the object received in parameters in the destination type,
@@ -32,7 +26,7 @@ namespace MapperEmit {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
             object destObject = init(dest, getValidMembers(src.GetMembers()));
-               Type mapperClass = mapAtribute.EmitClass(src, dest, mb, dict);
+            mapAtribute.Map(srcObject, destObject, mb, dict);
             return destObject;
         }
 
@@ -46,7 +40,7 @@ namespace MapperEmit {
         }
 
         /* Change the current mapAtribute. */
-        public IMapper Bind(Emitter m) {
+        public IMapper Bind(Mapping m) {
             mapAtribute = m;
             return this;
         }
