@@ -9,15 +9,13 @@ namespace MapperEmit {
     public class Mapper : IMapper {
         private Type src;
         private Type dest;
-
-        private ModuleBuilder mb;
+        
         private Mapping mapAtribute;
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
-        public Mapper(Type source, Type destination, ModuleBuilder mb) {
+        public Mapper(Type source, Type destination) {
             src = source;
             dest = destination;
-            this.mb = mb;
         }
 
         /* Verify if it's possible to map the object received in parameters in the destination type,
@@ -26,7 +24,7 @@ namespace MapperEmit {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
             object destObject = init(dest, getValidMembers(src.GetMembers()));
-            mapAtribute.Map(srcObject, destObject, mb, dict);
+            mapAtribute.Map(srcObject, destObject, dict);
             return destObject;
         }
 
@@ -58,7 +56,7 @@ namespace MapperEmit {
         private object init(Type dest, ArrayList srcMembers) {
             if (dest.GetConstructor(Type.EmptyTypes) != null)
                 return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcMembers, dest).Invoke(new Object[srcMembers.Count]);
+            return getAvailableConstructor(srcMembers, dest).Invoke(new object[srcMembers.Count]);
         }
 
         /* Get the constructor that receveives parameters which types are contained in ArrayList. */

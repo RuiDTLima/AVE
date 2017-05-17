@@ -5,7 +5,7 @@ using MapperEmit;
 namespace Tests
 {
     [TestClass]
-    public class UnitTest1 {
+    public class UnitTestReflect {
 
         public struct Test
         {

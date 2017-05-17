@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MapperEmit.Emiter
 {
     public interface IEmitter {
-        Type EmitClass(Type srcType, Type destType, Type attr, ModuleBuilder moduleBuilder, Dictionary<String, String> dict);
+        Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict);
     }
 
 }

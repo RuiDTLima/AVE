@@ -9,7 +9,7 @@ namespace MapperEmit.Emiter
 {
     public class FieldEmitter : IEmitter
     {
-        public Type EmitClass(Type srcType, Type destType, Type attr, ModuleBuilder moduleBuilder, Dictionary<string, string> dict)
+        public Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict)
         {
             throw new NotImplementedException();
         }
