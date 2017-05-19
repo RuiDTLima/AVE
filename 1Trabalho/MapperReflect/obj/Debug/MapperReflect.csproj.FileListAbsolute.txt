@@ -2,3 +2,4 @@ C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\bin\Debug\Mappe
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\bin\Debug\MapperReflect.pdb
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.dll
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.csprojResolveAssemblyReference.cache

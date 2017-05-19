@@ -45,33 +45,39 @@ namespace MapperEmit.Emiter
             //Get the source object and dest object to cast from object to their types. 
             /* public void Map(object src, object dest) */
 
-            
+
+            // 0 -> valor 1 -> auxiliar
             if (AutoMapper.IsStructType(srcType))  {
-                ilGenerator.Emit(OpCodes.Ldarg_1, 1); //Save the object with his real type.
+                ilGenerator.Emit(OpCodes.Ldarg_1); //Save the object with his real type.
                 ilGenerator.Emit(OpCodes.Unbox_Any, srcType);
                 ilGenerator.DeclareLocal(typeof(Pointer));
+                ilGenerator.DeclareLocal(srcType);
+                ilGenerator.Emit(OpCodes.Stloc_1);
+                ilGenerator.Emit(OpCodes.Ldloca, 1);
                 ilGenerator.Emit(OpCodes.Stloc_0);
-                ilGenerator.Emit(OpCodes.Ldloca, 4);
-                ilGenerator.Emit(OpCodes.St);
-
             } else
             {
                 ilGenerator.DeclareLocal(srcType);
+                ilGenerator.DeclareLocal(typeof(Pointer));
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Castclass, srcType); //Cast the source object to his real type.
                 ilGenerator.Emit(OpCodes.Stloc_0);//Save the object with his real type.
             }
-
+            // 2 - > valor 3 -> auxiliar
             if (AutoMapper.IsStructType(destType))  {
-                ilGenerator.DeclareLocal(typeof(Pointer));
+                ilGenerator.Emit(OpCodes.Ldarg_2); //Save the object with his real type.
                 ilGenerator.Emit(OpCodes.Unbox_Any, destType);
-                ilGenerator.Emit(OpCodes.Ldarga, 2); //Save the object with his real type.
-                ilGenerator.Emit(OpCodes.Stloc_1); //Save the object with his real type.
+                ilGenerator.DeclareLocal(typeof(Pointer));
+                ilGenerator.DeclareLocal(destType);
+                ilGenerator.Emit(OpCodes.Stloc_3);
+                ilGenerator.Emit(OpCodes.Ldloca, 3);
+                ilGenerator.Emit(OpCodes.Stloc_2);
             } else{
                 ilGenerator.DeclareLocal(destType);
+                ilGenerator.DeclareLocal(typeof(Pointer));
                 ilGenerator.Emit(OpCodes.Ldarg_2);
                 ilGenerator.Emit(OpCodes.Castclass, destType); //Cast the source object to his real type.
-                ilGenerator.Emit(OpCodes.Stloc_1);//Save the object with his real type.
+                ilGenerator.Emit(OpCodes.Stloc_2);//Save the object with his real type.
             }
             
             /* For each source property map it's corresponding property in destination. */
@@ -91,7 +97,7 @@ namespace MapperEmit.Emiter
                 /* If source and destination type are equal then set destination with source value
                   * else asks for a new mapper and tries to set its value */
                 if (currentDestType.Equals(currentSrcType)) {
-                    ilGenerator.Emit(OpCodes.Ldloc_1); //Get destination object into stack
+                    ilGenerator.Emit(OpCodes.Ldloc_2); //Get destination object into stack
                     ilGenerator.Emit(OpCodes.Ldloc_0); //Get source object into stack
                     ilGenerator.Emit(OpCodes.Callvirt, origin.GetGetMethod()); //Get the value of the current source property
                     ilGenerator.Emit(OpCodes.Callvirt, destiny.GetSetMethod()); //Affect the destination property with the value.
@@ -106,11 +112,11 @@ namespace MapperEmit.Emiter
                     Type mapperType = typeof(IMapper);
                     ilGenerator.Emit(OpCodes.Dup);
                     ilGenerator.DeclareLocal(mapperType);
-                    ilGenerator.Emit(OpCodes.Stloc_2);//Save the mapper into local stack.
+                    ilGenerator.Emit(OpCodes.Stloc, 4);//Save the mapper into local stack.
                     Label failed3 = ilGenerator.DefineLabel();
                     ilGenerator.Emit(OpCodes.Brfalse, failed3); //Verify if aux == null, if so jump to label
 
-                    ilGenerator.Emit(OpCodes.Ldloc_2);//Get the mapper into eval stack
+                    ilGenerator.Emit(OpCodes.Ldloc, 4);//Get the mapper into eval stack
                     ilGenerator.Emit(OpCodes.Call, typeof(Mapping).GetProperty("Fields").GetGetMethod()); // Get Mapping.Properties
                     //ilGenerator.Emit(OpCodes.Ldfld, typeof(Mapping).GetField("Properties"));
                     ilGenerator.Emit(OpCodes.Callvirt, mapperType.GetMethod("Bind")); //Call the method Bind with Mapping.Properties as parameter 
@@ -121,7 +127,7 @@ namespace MapperEmit.Emiter
                     ilGenerator.Emit(OpCodes.Callvirt, mapperType.GetMethod("Map", new Type[] { typeof(object) })); //Call aux.Map(Value)
 
                     ilGenerator.DeclareLocal(typeof(object));
-                    ilGenerator.Emit(OpCodes.Stloc_3); // Save object returned by previous aux.Bind(Mapping.Properties).Map(Value call;
+                    ilGenerator.Emit(OpCodes.Stloc, 5); // Save object returned by previous aux.Bind(Mapping.Properties).Map(Value call;
 
                     ilGenerator.Emit(OpCodes.Call, typeof(Mapping).GetProperty("Properties").GetGetMethod()); // Get Mapping.Properties
                     //ilGenerator.Emit(OpCodes.Ldfld, typeof(Mapping).GetField("Properties"));
@@ -130,12 +136,12 @@ namespace MapperEmit.Emiter
                     ilGenerator.Emit(OpCodes.Ldloc_0); //Get source object into stack
                     ilGenerator.Emit(OpCodes.Callvirt, origin.GetGetMethod()); //Get the value of the current source property
                     ilGenerator.Emit(OpCodes.Callvirt, mapperType.GetMethod("Map", new Type[] { typeof(object) })); //Call aux.Map(Value)
-                    ilGenerator.Emit(OpCodes.Ldloc_3);
+                    ilGenerator.Emit(OpCodes.Ldloc, 5);
                     ilGenerator.Emit(OpCodes.Call, typeof(Emitter).GetMethod("joinData"));
                     //ilGenerator.Emit(OpCodes.Castclass, currentDestType);
-                    ilGenerator.Emit(OpCodes.Stloc_3);
-                    ilGenerator.Emit(OpCodes.Ldloc_1);//Get the dest object into eval stack
-                    ilGenerator.Emit(OpCodes.Ldloc_3);//Get the object into eval stack
+                    ilGenerator.Emit(OpCodes.Stloc, 5);
+                    ilGenerator.Emit(OpCodes.Ldloc_2);//Get the dest object into eval stack
+                    ilGenerator.Emit(OpCodes.Ldloc, 5);//Get the object into eval stack
                     ilGenerator.Emit(OpCodes.Castclass, currentDestType);
                     ilGenerator.Emit(OpCodes.Callvirt, destiny.GetSetMethod()); //Affect the destination property with the value.
                     ilGenerator.MarkLabel(failed3);
