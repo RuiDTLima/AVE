@@ -5,3 +5,10 @@ C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\bin\Debug\MapperReflect
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.csprojResolveAssemblyReference.cache
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.dll
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.pdb
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\bin\Debug\Tests.dll
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\bin\Debug\Tests.pdb
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\bin\Debug\MapperReflect.dll
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\bin\Debug\MapperReflect.pdb
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.csprojResolveAssemblyReference.cache
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.dll
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.pdb

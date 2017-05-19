@@ -4,3 +4,8 @@ C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperEmit\bin\Debug\MapperEm
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperEmit\obj\Debug\MapperEmit.exe
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperEmit\obj\Debug\MapperEmit.pdb
 C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperEmit\obj\Debug\MapperEmit.csprojResolveAssemblyReference.cache
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperEmit\bin\Debug\MapperEmit.exe.config
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperEmit\bin\Debug\MapperEmit.exe
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperEmit\bin\Debug\MapperEmit.pdb
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperEmit\obj\Debug\MapperEmit.exe
+D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperEmit\obj\Debug\MapperEmit.pdb

@@ -44,6 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\Cache.cs" />
+    <Compile Include="Emiter\ConstructorEmit.cs" />
+    <Compile Include="Emiter\ConstructorEmitter.cs" />
     <Compile Include="Emiter\Emitter.cs" />
     <Compile Include="Map\AutoMapper.cs" />
     <Compile Include="Emiter\FieldEmitter.cs" />

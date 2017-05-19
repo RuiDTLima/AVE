@@ -6,6 +6,10 @@ using System.Reflection;
 namespace MapperEmit.Emiter
 {
     public class PropertiesEmitter : Emitter {
+        public override Type EmitClass(Type srcType, Type destType)
+        {
+            throw new NotImplementedException();
+        }
 
         public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict){
             Type emittedClass;
@@ -55,8 +59,7 @@ namespace MapperEmit.Emiter
                 ilGenerator.Emit(OpCodes.Stloc_1);
                 ilGenerator.Emit(OpCodes.Ldloca, 1);
                 ilGenerator.Emit(OpCodes.Stloc_0);
-            } else
-            {
+            } else {
                 ilGenerator.DeclareLocal(srcType);
                 ilGenerator.DeclareLocal(typeof(Pointer));
                 ilGenerator.Emit(OpCodes.Ldarg_1);
@@ -72,7 +75,7 @@ namespace MapperEmit.Emiter
                 ilGenerator.Emit(OpCodes.Stloc_3);
                 ilGenerator.Emit(OpCodes.Ldloca, 3);
                 ilGenerator.Emit(OpCodes.Stloc_2);
-            } else{
+            } else {
                 ilGenerator.DeclareLocal(destType);
                 ilGenerator.DeclareLocal(typeof(Pointer));
                 ilGenerator.Emit(OpCodes.Ldarg_2);

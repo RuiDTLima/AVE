@@ -11,6 +11,7 @@ namespace MapperEmit {
         private Type dest;
         
         private Mapping mapAtribute;
+        private ConstructorEmitter ctorEmitter = new ConstructorEmitter();
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
         public Mapper(Type source, Type destination) {
@@ -23,7 +24,9 @@ namespace MapperEmit {
         public object Map(object srcObject) {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
-            object destObject = init(dest, getValidMembers(src.GetMembers()));
+            Type ctorType = ctorEmitter.EmitClass(src, dest);
+            ConstructorEmit ctorEmited = (ConstructorEmit)Activator.CreateInstance(ctorType);
+            object destObject = ctorEmited.GetCtor(dest);
             mapAtribute.Map(srcObject, destObject, dict);
             return destObject;
         }
@@ -44,49 +47,12 @@ namespace MapperEmit {
         }
 
         /* Add a new entry match of names if it's not already contained in the dict. */
-        public IMapper Match(string nameFrom, string nameDest) {
+        public IMapper Match(string nameFrom, string nameDest)
+        {
             String aux = null;
-            if(!dict.TryGetValue(nameFrom, out aux))
+            if (!dict.TryGetValue(nameFrom, out aux))
                 dict.Add(nameFrom, nameDest);
             return this;
-        }
-
-        /* Get a new object using the empty parameters constructor or the constructor that receives parameters
-         * with the types contained in the ArrayList. */
-        private object init(Type dest, ArrayList srcMembers) {
-            if (dest.GetConstructor(Type.EmptyTypes) != null)
-                return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcMembers, dest).Invoke(new object[srcMembers.Count]);
-        }
-
-        /* Get the constructor that receveives parameters which types are contained in ArrayList. */
-        private ConstructorInfo getAvailableConstructor(ArrayList srcMembers, Type dest) {
-            int size = srcMembers.Count;
-            Type[] memberTypes = new Type[size];
-            for (int i = 0; i < size; ++i)
-                memberTypes[i] = srcMembers[i].GetType();
-            return dest.GetConstructor(memberTypes);
-        }
-
-        /* Get the ArrayList of valid members contained in members. */
-        private ArrayList getValidMembers(MemberInfo[] members) {
-            ArrayList validMembers = new ArrayList();
-            for (int i = 0; i < members.Length; i++){
-                MemberInfo curr = members[i];
-                if (isValidMember(curr)) validMembers.Add(curr);
-            }
-            return validMembers;
-        }
-
-        /* Verifies if curr is a PropertyInfo or a FieldInfo. */
-        private bool isValidMember(MemberInfo curr) {
-            
-            PropertyInfo pi = curr as PropertyInfo;
-            if (pi != null) return true;
-
-            FieldInfo fi = curr as FieldInfo;
-            if (fi != null) return true;
-            return false;
         }
     }
 }
