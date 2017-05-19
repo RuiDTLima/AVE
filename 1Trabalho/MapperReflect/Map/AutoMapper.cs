@@ -23,7 +23,7 @@ namespace MapperEmit
 
         /* Verify if the type received in parameters is a struct. */
         private static bool IsStructType(Type type){
-            return !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System.");
+            return type.IsValueType && !type.IsPrimitive;
         }
     }
 }

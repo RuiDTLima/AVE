@@ -26,7 +26,7 @@ namespace MapperEmit
                 Fields.Map(srcObject, destObject, Attribute, dict);
             Properties.Map(srcObject, destObject, Attribute, dict);
         }
-
+        
         /* To be redefined by extedend classes. */
         public virtual void Map(object srcObject, object destObject, Type Attr, Dictionary<String, String> dict) { }
     }

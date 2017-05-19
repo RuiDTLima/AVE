@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 
 namespace MapperEmit
 {
-    public class AutoMapperEmitter {
+    public class AutoMapper {
         private static Dictionary<KeyValuePair<Type, Type>, IMapper> cacheContainer = Cache.cache;
 
         /* Get the Mapper of parameters types if it's already in cache otherwise creates and add it to cache. */
@@ -29,9 +29,9 @@ namespace MapperEmit
         }
 
         /* Verify if the type received in parameters is a struct. */
-        private static bool IsStructType(Type type)
+        public static bool IsStructType(Type type)
         {
-            return !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System.");
+            return type.IsValueType && !type.IsPrimitive;
         }
     }
 }

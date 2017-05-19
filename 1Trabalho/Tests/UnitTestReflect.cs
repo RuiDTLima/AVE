@@ -156,7 +156,7 @@ namespace Tests
         [TestMethod]
         public void TestToMapAttributeArray()
         {
-            Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute))).Match("Nr", "Id");
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Person)).Bind(new Mapping(typeof(ToMapAttribute))).Match("_Nr", "_Id");
             Student[] stds = { new Student { _Nr = 27721, _Name = "António" }, new Student { _Nr = 11111, _Name = "Joana" } };
             Person[] ps = (Person[])m.Map(stds);
 
