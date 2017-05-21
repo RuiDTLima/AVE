@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapperEmit
+namespace MapperReflect
 {
     public class AutoMapper {
         private static Dictionary<KeyValuePair<Type, Type>, IMapper> cacheContainer = Cache.cache;

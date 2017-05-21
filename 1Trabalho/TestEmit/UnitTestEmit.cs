@@ -7,14 +7,6 @@ namespace Tests
     [TestClass]
     public class UnitTestEmit
     {
-        public class class1 {
-            void map(object src, object dest) {
-                Test t = (Test) src;
-                Person p = (Person) dest;
-                p.Name = t.Name;
-                p.Id = t.Id;
-            }
-        }
         public struct Test
         {
             public string Name { get; set; }
@@ -26,6 +18,21 @@ namespace Tests
 
             [ToMap]
             public int _Id;
+        }
+        /************************************** GeneralTests *************************************************/
+        [TestMethod]
+        public void TestNotPossibleType()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(int), typeof(Person));
+            Assert.AreEqual(m, null);
+        }
+
+        [TestMethod]
+        public void TestCache()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
+            Mapper mCache = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
+            Assert.AreSame(m, mCache);
         }
 
         /************************************** PropertiesTests **********************************************/
@@ -71,6 +78,16 @@ namespace Tests
             Assert.AreEqual(s.Nr, t.Id);
             Assert.AreEqual(s.Org.MembersIds, t.Org.MembersIds);
             Assert.AreEqual(s.Org.Name, t.Org.Name);
+        }
+
+        [TestMethod]
+        public void TestPropertiesEqualTypesDifferentNamesWithOutNoParametersConstructor()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Subject)).Bind(Mapping.Properties);
+            Teacher t = new Teacher { Id = 27721, Name = "Ze Manel" };
+            Subject sj = (Subject)m.Map(t);
+            Assert.AreEqual(t.Name, sj.Name);
+            Assert.AreEqual(t.Id, sj.Id);
         }
 
         [TestMethod]

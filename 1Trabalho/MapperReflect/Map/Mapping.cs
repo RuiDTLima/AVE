@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MapperEmit
+namespace MapperReflect
 {
     public class Mapping {
 

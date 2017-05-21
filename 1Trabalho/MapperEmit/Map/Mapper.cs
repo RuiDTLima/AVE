@@ -1,9 +1,6 @@
 ﻿using MapperEmit.Emiter;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
 
 namespace MapperEmit {
     public class Mapper : IMapper {
@@ -26,7 +23,7 @@ namespace MapperEmit {
                 return null;
             Type ctorType = ctorEmitter.EmitClass(src, dest);
             ConstructorEmit ctorEmited = (ConstructorEmit)Activator.CreateInstance(ctorType);
-            object destObject = ctorEmited.GetCtor(dest);
+            object destObject = ctorEmited.createInstance(dest);
             mapAtribute.Map(srcObject, destObject, dict);
             return destObject;
         }

@@ -5,11 +5,13 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperReflect", "MapperReflect\MapperReflect.csproj", "{909B939D-BB76-4D62-A83D-874D5A4F36C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F396D9F8-4923-4ABF-B77C-8A8506426EBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestReflect", "Tests\TestReflect.csproj", "{F396D9F8-4923-4ABF-B77C-8A8506426EBF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperEmit", "MapperEmit\MapperEmit.csproj", "{CD26683E-80CA-4E2C-8B3D-1AC014CB6A55}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEmit", "TestEmit\TestEmit.csproj", "{7F270AE7-B12E-4C24-93F1-4A2B870F7D8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDifferenceTime", "TestDifferenceTime\TestDifferenceTime.csproj", "{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7F270AE7-B12E-4C24-93F1-4A2B870F7D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F270AE7-B12E-4C24-93F1-4A2B870F7D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F270AE7-B12E-4C24-93F1-4A2B870F7D8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

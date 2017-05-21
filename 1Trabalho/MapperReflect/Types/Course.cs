@@ -1,4 +1,5 @@
-﻿namespace MapperEmit {
+﻿namespace MapperReflect
+{
     public class Course {
     }
 }

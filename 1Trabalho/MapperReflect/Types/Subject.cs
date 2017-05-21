@@ -1,4 +1,5 @@
-﻿namespace MapperEmit {
+﻿namespace MapperReflect
+{
     public class Subject {
         public string Name { get; set; }
         public int Id { get; set; }

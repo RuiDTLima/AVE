@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MapperEmit {
+namespace MapperReflect
+{
     public class MappingProperties : Mapping {
         /* Auxiliar method to be called without using attribute. */
         public override void Map(object srcObject, object destObject, Dictionary<String, String> dict) {
@@ -26,9 +27,9 @@ namespace MapperEmit {
                 if (attr != null && !origin.IsDefined(attr) || value == null) continue;
 
                 /* Gets the corresponding destiny property. */
-                dict.TryGetValue(origin.Name, out currentName);
-                destiny = currentName == null ? dest.GetProperty(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance): 
-                                                 dest.GetProperty(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (!dict.TryGetValue(origin.Name, out currentName))
+                    currentName = origin.Name;
+                destiny = dest.GetProperty(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (destiny == null || (attr != null && !destiny.IsDefined(attr))) continue;
               
                 currentDestType = destiny.PropertyType;

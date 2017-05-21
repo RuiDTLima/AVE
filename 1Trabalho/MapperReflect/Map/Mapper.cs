@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System; 
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MapperEmit {
+namespace MapperReflect
+{
     public class Mapper : IMapper {
         private Type src;
        
@@ -25,7 +25,7 @@ namespace MapperEmit {
         public object Map(object srcObject) {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
-            object destObject = init(dest, getValidMembers(src.GetMembers()));
+            object destObject = init(dest);
             mapAtribute.Map(srcObject, destObject, dict);
             return destObject;
         }
@@ -53,42 +53,12 @@ namespace MapperEmit {
             return this;
         }
 
-        /* Get a new object using the empty parameters constructor or the constructor that receives parameters
-         * with the types contained in the ArrayList. */
-        private object init(Type dest, ArrayList srcMembers) {
+        /* Get a new object using the empty parameters constructor or a constructor that receives parameters. */
+        private object init(Type dest) {
             if (dest.GetConstructor(Type.EmptyTypes) != null)
                 return Activator.CreateInstance(dest);
-            return getAvailableConstructor(srcMembers, dest).Invoke(new Object[srcMembers.Count]);
-        }
-
-        /* Get the constructor that receveives parameters which types are contained in ArrayList. */
-        private ConstructorInfo getAvailableConstructor(ArrayList srcMembers, Type dest) {
-            int size = srcMembers.Count;
-            Type[] memberTypes = new Type[size];
-            for (int i = 0; i < size; ++i)
-                memberTypes[i] = srcMembers[i].GetType();
-            return dest.GetConstructor(memberTypes);
-        }
-
-        /* Get the ArrayList of valid members contained in members. */
-        private ArrayList getValidMembers(MemberInfo[] members) {
-            ArrayList validMembers = new ArrayList();
-            for (int i = 0; i < members.Length; i++){
-                MemberInfo curr = members[i];
-                if (isValidMember(curr)) validMembers.Add(curr);
-            }
-            return validMembers;
-        }
-
-        /* Verifies if curr is a PropertyInfo or a FieldInfo. */
-        private bool isValidMember(MemberInfo curr) {
-            
-            PropertyInfo pi = curr as PropertyInfo;
-            if (pi != null) return true;
-
-            FieldInfo fi = curr as FieldInfo;
-            if (fi != null) return true;
-            return false;
+            ConstructorInfo ctorInfo = dest.GetConstructors()[0];
+            return ctorInfo.Invoke(new object[ctorInfo.GetParameters().Length]);
         }
     }
 }

@@ -1,0 +1,10 @@
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\TestDifferenceTime.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\TestDifferenceTime.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\MapperEmit.exe
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\MapperReflect.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\MapperEmit.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\bin\Debug\MapperReflect.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\obj\Debug\TestDifferenceTime.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\obj\Debug\TestDifferenceTime.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestDifferenceTime\obj\Debug\TestDifferenceTime.pdb

@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MapperEmit;
+using MapperReflect;
 
 namespace Tests
 {
@@ -75,6 +75,16 @@ namespace Tests
         }
 
         [TestMethod]
+        public void TestPropertiesEqualTypesDifferentNamesWithOutNoParametersConstructor()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Subject)).Bind(Mapping.Properties);
+            Teacher t = new Teacher { Id = 27721, Name = "Ze Manel" };
+            Subject sj = (Subject)m.Map(t);
+            Assert.AreEqual(t.Name, sj.Name);
+            Assert.AreEqual(t.Id, sj.Id);
+        }
+
+        [TestMethod]
         public void TestPropertiesArray() {
             Mapper m = (Mapper)AutoMapper.Build(typeof(Student), typeof(Teacher)).Bind(Mapping.Properties).Match("Nr", "Id");
             Student[] stds = { new Student { Nr = 27721, Name = "António" }, new Student { Nr = 11111, Name = "Joana" } };
@@ -86,6 +96,7 @@ namespace Tests
             Assert.AreEqual(stds[1].Name, ps[1].Name);
             Assert.AreEqual(stds[1].Nr, ps[1].Id);
         }
+
 
         /************************************** FieldsTests **************************************************/
         [TestMethod]

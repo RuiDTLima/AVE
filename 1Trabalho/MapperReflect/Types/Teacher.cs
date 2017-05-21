@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace MapperEmit {
+namespace MapperReflect
+{
     public class Teacher {
         [ToMap]
         public string Name { get; set; }

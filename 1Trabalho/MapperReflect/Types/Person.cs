@@ -1,4 +1,5 @@
-﻿namespace MapperEmit {
+﻿namespace MapperReflect
+{
     public class Person {
         [ToMapAttribute]
         public string Name { get; set; }

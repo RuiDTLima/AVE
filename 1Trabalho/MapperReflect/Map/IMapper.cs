@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace MapperEmit {
+namespace MapperReflect
+{
     public interface IMapper {
         object Map(object src);
 

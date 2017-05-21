@@ -1,5 +1,6 @@
 ﻿using System;
 
-namespace MapperEmit {
+namespace MapperReflect
+{
     public class ToMapAttribute : Attribute { }
 }

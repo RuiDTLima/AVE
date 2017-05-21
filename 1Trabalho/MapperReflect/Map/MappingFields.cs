@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MapperEmit {
+namespace MapperReflect {
     public class MappingFields : Mapping {
         /* Auxiliar method to be called without using attribute. */
         public override void Map(object srcObject, object destObject, Dictionary<String, String> dict) {
@@ -24,12 +24,11 @@ namespace MapperEmit {
                 origin = srcFields[i];
                 object value = origin.GetValue(srcObject);
                 if (attr != null && !origin.IsDefined(attr) || value == null) continue;
-                
+
                 /* Get the corresponding destiny field. */
-                dict.TryGetValue(origin.Name, out currentName);
-                destiny = currentName == null ? dest.GetField(origin.Name, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance) :
-                                                 dest.GetField(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-       
+                if (!dict.TryGetValue(origin.Name, out currentName))
+                    currentName = origin.Name;
+                destiny = dest.GetField(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (destiny == null || (attr != null && !destiny.IsDefined(attr))) continue;
 
                 currentDestType = destiny.FieldType;
