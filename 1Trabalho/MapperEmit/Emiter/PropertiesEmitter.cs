@@ -6,7 +6,7 @@ using System.Reflection;
 namespace MapperEmit.Emiter
 {
     public class PropertiesEmitter : Emitter {
-        public override Type EmitClass(Type srcType, Type destType)
+        public override Type EmitClass(Type destType)
         {
             throw new NotImplementedException();
         }

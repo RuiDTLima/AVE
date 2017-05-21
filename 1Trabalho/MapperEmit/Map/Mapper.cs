@@ -21,7 +21,7 @@ namespace MapperEmit {
         public object Map(object srcObject) {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
-            Type ctorType = ctorEmitter.EmitClass(src, dest);
+            Type ctorType = ctorEmitter.EmitClass(dest);
             ConstructorEmit ctorEmited = (ConstructorEmit)Activator.CreateInstance(ctorType);
             object destObject = ctorEmited.createInstance(dest);
             mapAtribute.Map(srcObject, destObject, dict);

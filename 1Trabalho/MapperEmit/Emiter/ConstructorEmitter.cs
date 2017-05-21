@@ -7,16 +7,16 @@ namespace MapperEmit.Emiter
 {
     class ConstructorEmitter : Emitter
     {
-        public override Type EmitClass(Type srcType, Type destType) {
+        public override Type EmitClass(Type destType) {
             Type emittedClass;
             /* Verify if the class to emit already exists and returns it. */
-            if (IsInCache(srcType, destType, out emittedClass))
+            if (IsInCache(destType, out emittedClass))
                 return emittedClass;
             AssemblyName aName = new AssemblyName("ConstructorAssembly");
             AssemblyBuilder ab = AppDomain.CurrentDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.RunAndSave);
             ModuleBuilder moduleBuilder = ab.DefineDynamicModule(aName.Name, aName.Name + ".dll");
 
-            TypeBuilder typeBuilder = moduleBuilder.DefineType("ConstructorMapping" + srcType.Name + "To" + destType.Name,
+            TypeBuilder typeBuilder = moduleBuilder.DefineType("ConstructorMapping" + destType.Name,
                                                                TypeAttributes.Public);
 
             /* Define that the emittied class is a Mapping */
@@ -48,7 +48,7 @@ namespace MapperEmit.Emiter
             emittedClass = typeBuilder.CreateType();
             ab.Save("ConstructorAssembly.dll");
 
-            addToCache(srcType, destType, emittedClass);
+            addToCache(destType, emittedClass);
             return emittedClass;
         }
 

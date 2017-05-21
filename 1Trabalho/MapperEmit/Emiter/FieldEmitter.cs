@@ -7,7 +7,7 @@ namespace MapperEmit.Emiter
 {
     public class FieldEmitter : Emitter
     {
-        public override Type EmitClass(Type srcType, Type destType)
+        public override Type EmitClass(Type destType)
         {
             throw new NotImplementedException();
         }

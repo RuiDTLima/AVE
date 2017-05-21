@@ -7,7 +7,7 @@ namespace MapperEmit.Emiter
     public abstract class Emitter {
         public abstract Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict);
 
-        public abstract Type EmitClass(Type srcType, Type destType);
+        public abstract Type EmitClass(Type destType);
 
         /* Contains the already emitted classes that maps the first type into second type. */
         protected Dictionary<KeyValuePair<Type, Type>, Type> emittedClasses = new Dictionary<KeyValuePair<Type, Type>, Type>();
@@ -15,12 +15,11 @@ namespace MapperEmit.Emiter
         /* Contains the already emitted classes that maps the first type into second type with custom attribute. */
         protected Dictionary<KeyValuePair<Type, Type>, Type> emittedClassesAttribute = new Dictionary<KeyValuePair<Type, Type>, Type>();
 
-        protected Dictionary<KeyValuePair<Type, Type>, Type> emittedConstructors = new Dictionary<KeyValuePair<Type, Type>, Type>();
+        protected Dictionary<Type, Type> emittedConstructors = new Dictionary<Type, Type>();
 
-        protected void addToCache(Type srcType, Type destType, Type emittedConstructor)
+        protected void addToCache(Type type, Type emittedConstructor)
         {
-            KeyValuePair<Type, Type> key = new KeyValuePair<Type, Type>(srcType, destType);
-            emittedConstructors.Add(key, emittedConstructor);
+            emittedConstructors.Add(type, emittedConstructor);
         }
 
         /* Add the emitted class into cache. */
@@ -32,10 +31,9 @@ namespace MapperEmit.Emiter
             emittedClassesAttribute.Add(key, emittedClass);
         }
 
-        protected bool IsInCache(Type srcType, Type destType, out Type emittedConstructor)
+        protected bool IsInCache(Type Type, out Type emittedConstructor)
         {
-            KeyValuePair<Type, Type> key = new KeyValuePair<Type, Type>(srcType, destType);
-            return emittedConstructors.TryGetValue(key, out emittedConstructor);
+            return emittedConstructors.TryGetValue(Type, out emittedConstructor);
         }
         /* Verify if for those types already exist a emitted class and if so affects it.  */
         protected bool IsInCache(Type srcType, Type destType, Type attr, out Type emittedClass)
