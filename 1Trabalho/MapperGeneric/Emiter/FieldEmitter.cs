@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace MapperGeneric.Emiter
+namespace MapperGeneric
 {
     public class FieldEmitter : Emitter
     {
@@ -12,7 +12,7 @@ namespace MapperGeneric.Emiter
             throw new NotImplementedException();
         }
 
-        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict)
+        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<R>> dictFuncs)
         {
             Type emittedClass;
             /* Verify if the class to emit already exists and returns it. */

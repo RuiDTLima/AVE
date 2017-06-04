@@ -39,9 +39,9 @@ namespace TestDifferenceTime
 
         private void ExecuteEmit()
         {
-            MapperEmit.Mapper m = (MapperEmit.Mapper)MapperEmit.AutoMapper.Build(typeof(MapperEmit.Student), typeof(MapperEmit.Teacher)).Bind(MapperEmit.Mapping.Properties).Match("Nr", "Id");
-            MapperEmit.Student[] stds = { new MapperEmit.Student { Nr = 27721, Name = "António" }, new MapperEmit.Student { Nr = 11111, Name = "Joana" } };
-            MapperEmit.Teacher[] ps = (MapperEmit.Teacher[])m.Map(stds);
+            MapperGeneric.Mapper m = (MapperGeneric.Mapper)MapperGeneric.AutoMapper.Build(typeof(MapperGeneric.Student), typeof(MapperGeneric.Teacher)).Bind(MapperGeneric.Mapping.Properties).Match("Nr", "Id");
+            MapperGeneric.Student[] stds = { new MapperGeneric.Student { Nr = 27721, Name = "António" }, new MapperGeneric.Student { Nr = 11111, Name = "Joana" } };
+            MapperGeneric.Teacher[] ps = (MapperGeneric.Teacher[])m.Map(stds);
         }
 
         private void ExecuteReflect()

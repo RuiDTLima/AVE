@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MapperGeneric.Emiter
+namespace MapperGeneric
 {
     public interface ConstructorEmit
     {

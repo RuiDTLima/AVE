@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MapperEmit;
+using MapperGeneric;
 
 namespace Tests
 {
@@ -33,6 +33,16 @@ namespace Tests
             Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
             Mapper mCache = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Person));
             Assert.AreSame(m, mCache);
+        }
+
+        [TestMethod]
+        public void TestWithoutNoParametersConstructor()
+        {
+            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Subject));
+            Teacher t = new Teacher { Id = 27721, Name = "Ze Manel" };
+            Subject sj = (Subject)m.Map(t);
+            Assert.AreEqual(t.Name, sj.Name);
+            Assert.AreEqual(t.Id, sj.Id);
         }
 
         /************************************** PropertiesTests **********************************************/
@@ -78,16 +88,6 @@ namespace Tests
             Assert.AreEqual(s.Nr, t.Id);
             Assert.AreEqual(s.Org.MembersIds, t.Org.MembersIds);
             Assert.AreEqual(s.Org.Name, t.Org.Name);
-        }
-
-        [TestMethod]
-        public void TestPropertiesEqualTypesDifferentNamesWithOutNoParametersConstructor()
-        {
-            Mapper m = (Mapper)AutoMapper.Build(typeof(Teacher), typeof(Subject)).Bind(Mapping.Properties);
-            Teacher t = new Teacher { Id = 27721, Name = "Ze Manel" };
-            Subject sj = (Subject)m.Map(t);
-            Assert.AreEqual(t.Name, sj.Name);
-            Assert.AreEqual(t.Id, sj.Id);
         }
 
         [TestMethod]

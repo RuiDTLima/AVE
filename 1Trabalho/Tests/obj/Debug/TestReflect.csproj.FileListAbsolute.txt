@@ -1,7 +1,0 @@
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\TestReflect.csprojResolveAssemblyReference.cache
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.dll
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\obj\Debug\Tests.pdb
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\bin\Debug\Tests.dll
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\bin\Debug\Tests.pdb
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\bin\Debug\MapperReflect.dll
-C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\Tests\bin\Debug\MapperReflect.pdb

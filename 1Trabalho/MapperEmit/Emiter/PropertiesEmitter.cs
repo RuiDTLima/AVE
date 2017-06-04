@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Reflection;
 
-namespace MapperEmit.Emiter
+namespace MapperGeneric.Emiter
 {
     public class PropertiesEmitter : Emitter {
         public override Type EmitClass(Type destType)
@@ -50,7 +50,7 @@ namespace MapperEmit.Emiter
                 ilGenerator.DeclareLocal(srcType); /* Determine that the local stack variable 1 is of type of the source object. */
                 ilGenerator.Emit(OpCodes.Stloc_1); /* Store the object that resulted from the operation unbox before into local stack variable 1. */
                 ilGenerator.Emit(OpCodes.Ldloca, 1); /* Load the adress of the local stack variable 1. */
-                ilGenerator.Emit(OpCodes.Stloc_0); /* Store the adress into local stack variable 0 .*/
+                ilGenerator.Emit(OpCodes.Stloc_0); /* Store the adress into local stack variable 0. */
             } else {
                 ilGenerator.DeclareLocal(srcType); /* Determine that the local stack variable 0 is of type of the source object. */
                 ilGenerator.DeclareLocal(typeof(Pointer)); /* Determine that the local stack variable 0 is of type Pointer, to accept adresses. */
@@ -93,7 +93,7 @@ namespace MapperEmit.Emiter
                 /* If source and destination type are equal then set destination with source value
                   * else asks for a new mapper and tries to set its value */
                 if (currentDestType.Equals(currentSrcType)) {
-                    /* As the types are equal, it is needed to get the source object value to put it on destiation. */
+                    /* As the types are equal, it is needed to get the source object value to put it on destination. */
                     ilGenerator.Emit(OpCodes.Ldloc_2); /* Get destination object into evaluation stack. */
                     ilGenerator.Emit(OpCodes.Ldloc_0); /* Get source object into evaluation stack. */
                     ilGenerator.Emit(OpCodes.Callvirt, origin.GetGetMethod()); /* Obtain trhought method GetGetMethod the get method of origin PropertyInfo of source object and calls it and it returns the value of the property into evaluation stack. */
@@ -132,10 +132,10 @@ namespace MapperEmit.Emiter
                     ilGenerator.Emit(OpCodes.Dup); /* Duplicate the mapper so once mapping fields its done, the mapper is contained in evaluation stack and its not needed to load it again. */
 
                     ilGenerator.Emit(OpCodes.Ldloc_0); /* Load source object into evaluation stack. */
-                    ilGenerator.Emit(OpCodes.Callvirt, origin.GetGetMethod());  /* Obtain trhought method GetGetMethod the get method of origin PropertyInfo of source object and calls it and it returns the value of the property into evaluation stack. */
+                    ilGenerator.Emit(OpCodes.Callvirt, origin.GetGetMethod()); /* Obtain trhought method GetGetMethod the get method of origin PropertyInfo of source object and calls it and it returns the value of the property into evaluation stack. */
                     ilGenerator.Emit(OpCodes.Callvirt, mapperType.GetMethod("Map", new Type[] { typeof(object) })); /* Call method map of mapper to map the fields. */
 
-                    ilGenerator.DeclareLocal(typeof(object));/* Determine that the local stack variable 05 is of type object. */
+                    ilGenerator.DeclareLocal(typeof(object)); /* Determine that the local stack variable 5 is of type object. */
                     ilGenerator.Emit(OpCodes.Stloc, 5); /* Store object returned by previous map call.*/
 
                     ilGenerator.Emit(OpCodes.Call, typeof(Mapping).GetProperty("Properties").GetGetMethod()); /* Load the value Mapping.Properties to be the parameter of method bind. */

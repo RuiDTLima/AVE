@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace MapperGeneric.Emiter
+namespace MapperGeneric
 {
     public abstract class Emitter {
-        public abstract Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict);
+        public abstract Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<R>> dictFuncs);
 
         public abstract Type EmitClass(Type destType);
 

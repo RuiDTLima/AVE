@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace MapperGeneric.Emiter
+namespace MapperGeneric
 {
     class ConstructorEmitter : Emitter
     {
@@ -52,7 +52,7 @@ namespace MapperGeneric.Emiter
             return emittedClass;
         }
 
-        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict) {
+        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<R>> dictFuncs) {
             throw new NotImplementedException();
         }
     }

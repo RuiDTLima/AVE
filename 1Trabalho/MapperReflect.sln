@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEmit", "TestEmit\TestEm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDifferenceTime", "TestDifferenceTime\TestDifferenceTime.csproj", "{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperGeneric", "MapperGeneric\MapperGeneric.csproj", "{20640800-5DAC-47B2-B407-62F2016DA218}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FAB1B92-341E-4BA6-82BA-CBA71F51101C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20640800-5DAC-47B2-B407-62F2016DA218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20640800-5DAC-47B2-B407-62F2016DA218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20640800-5DAC-47B2-B407-62F2016DA218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20640800-5DAC-47B2-B407-62F2016DA218}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
