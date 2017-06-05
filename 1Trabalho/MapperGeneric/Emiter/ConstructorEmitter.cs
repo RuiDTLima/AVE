@@ -52,7 +52,7 @@ namespace MapperGeneric
             return emittedClass;
         }
 
-        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<R>> dictFuncs) {
+        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, object> dictResult) {
             throw new NotImplementedException();
         }
     }

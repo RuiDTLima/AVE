@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MapperGeneric
 {
@@ -8,6 +6,6 @@ namespace MapperGeneric
     {
         TDest Map(TSrc src);
         TDest[] Map(TSrc[] src);
-        IEnumerable<TDest> MapLazy(IEnumerable<TSrc> src);
-    }
+        IEnumerable<TDest> MapLazy(IEnumerable<TSrc> src);
+    }
 }

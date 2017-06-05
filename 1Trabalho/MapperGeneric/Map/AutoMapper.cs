@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using System.Reflection.Emit;
 
-namespace MapperGeneric
-{
+namespace MapperGeneric {
     public class AutoMapper {
         private static Dictionary<KeyValuePair<Type, Type>, IMapper> cacheContainer = Cache.cache;
 
@@ -20,9 +14,7 @@ namespace MapperGeneric
             IMapper cache;
             KeyValuePair<Type, Type> typePair = new KeyValuePair<Type, Type>(klassSrc, klassDest);
             cacheContainer.TryGetValue(typePair, out cache);
-            if (cache == null)
-            {
-               
+            if (cache == null) {
                 cache = new Mapper(klassSrc, klassDest);
                 cacheContainer.Add(typePair, cache);
             }
@@ -46,7 +38,6 @@ namespace MapperGeneric
             }
             return (IMapperGeneric<TSrc, TDest>) cache;
         }
-
 
         /* Verify if the type received in parameters is a struct. */
         public static bool IsStructType(Type type)

@@ -50,13 +50,14 @@
     <Compile Include="Emiter\FieldEmitter.cs" />
     <Compile Include="Emiter\MappingEmit.cs" />
     <Compile Include="Emiter\PropertiesEmitter.cs" />
+    <Compile Include="Map\Mapper.cs" />
     <Compile Include="Mapping\Mapping.cs" />
     <Compile Include="Mapping\MappingFields.cs" />
     <Compile Include="Mapping\MappingProperties.cs" />
     <Compile Include="Map\AutoMapper.cs" />
     <Compile Include="Map\IMapper.cs" />
     <Compile Include="Map\IMapperGeneric.cs" />
-    <Compile Include="Map\Mapper.cs" />
+    <Compile Include="Map\MapperGeneric.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Course.cs" />

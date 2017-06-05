@@ -11,9 +11,9 @@ namespace MapperGeneric
             throw new NotImplementedException();
         }
 
-        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict, Dictionary<String, Func<R>> dictFuncs)
+        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict, Dictionary<string, object> dictResult)
         {
-            Type emittedClass;
+            MappingEmit emittedClass;
             /* Verify if the class to emit already exists and returns it. */
             if(IsInCache(srcType, destType, attr, out emittedClass))
                 return emittedClass;
@@ -24,8 +24,34 @@ namespace MapperGeneric
 
             TypeBuilder typeBuilder = moduleBuilder.DefineType("PropertyMapping" + srcType.Name + "To" + destType.Name,
                                                                TypeAttributes.Public);
+
             /* Define that the emittied class is a Mapping */
             typeBuilder.AddInterfaceImplementation(typeof(MappingEmit));
+
+            FieldBuilder fbArray = typeBuilder.DefineField(
+                "values",
+                typeof(object[]),
+                FieldAttributes.Private);
+
+            Type[] parametersType = { typeof(object[]) };
+
+            /* Define the constructor with object array as a parameter */
+            ConstructorBuilder ctor1 = typeBuilder.DefineConstructor(
+                MethodAttributes.Public,
+                CallingConventions.Standard,
+                parametersType);
+
+            ILGenerator ctor1IL = ctor1.GetILGenerator();
+
+            ctor1IL.Emit(OpCodes.Ldarg_0);
+            ctor1IL.Emit(OpCodes.Call,
+                typeof(object).GetConstructor(Type.EmptyTypes));
+
+            ctor1IL.Emit(OpCodes.Ldarg_0);
+            ctor1IL.Emit(OpCodes.Ldarg_1);
+            ctor1IL.Emit(OpCodes.Stfld, fbArray);
+            ctor1IL.Emit(OpCodes.Ret);
+
             /* Arrange the method that would look like public void Map(object srcObject, object destObject Type attribute, Dictionary<string, string> dic) */
             MethodBuilder methodBuilder = typeBuilder.DefineMethod("Map", MethodAttributes.Public | MethodAttributes.Virtual,
                                                                    typeof(void), new Type[] { typeof(object), typeof(object)});
@@ -36,14 +62,17 @@ namespace MapperGeneric
 
             PropertyInfo destiny, origin;
             string currentName;
+            object result;
             Type currentDestType, currentSrcType;
+            List<object> values = new List<object>();
+            int idx = 0;
 
             /* Verify if source type is an struct or a class, because in case of beeing a struct, it must save the reference and not the object,
              * for this its used the local stack variable 0 to save either the reference or the object and the local stack variable 1 its used as
              * an auxiliar variable. Must do for source object and destination object.
              * In case of beeing a struct type the object comes in a box form. Must do unbox operation.
              * In case of beeing a class type the object needs to be casted to its real type. Must do cast operation. */
-             /* Procedure to deal with source object. */
+            /* Procedure to deal with source object. */
             if (AutoMapper.IsStructType(srcType))  {
                 ilGenerator.Emit(OpCodes.Ldarg_1); /* Load the source object into evaluation stack. */
                 ilGenerator.Emit(OpCodes.Unbox_Any, srcType); /* Unbox the source object and gets the object into evaluation stack. */
@@ -86,7 +115,18 @@ namespace MapperGeneric
                 if (!dict.TryGetValue(origin.Name, out currentName))
                     currentName = origin.Name;
                 destiny = destType.GetProperty(currentName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-                if (destiny == null || (attr != null && !destiny.IsDefined(attr))) continue;
+                if (destiny == null || (attr != null && !destiny.IsDefined(attr)))
+                    continue;
+
+                if (dictResult.TryGetValue(currentName, out result)) {
+                    values.Add(result);
+                    ilGenerator.Emit(OpCodes.Ldloc_2); /* Get destination object into evaluation stack. */
+                    ilGenerator.Emit(OpCodes.Ldarg_0);
+                    ilGenerator.Emit(OpCodes.Ldfld, fbArray);/*descritor do campo que tem referencia para o array de valores*/
+                    ilGenerator.Emit(OpCodes.Ldelem, idx++);
+                    ilGenerator.Emit(OpCodes.Callvirt, destiny.GetSetMethod()); /* Store the value in destination field info. */
+                    continue;
+                }
 
                 currentDestType = destiny.PropertyType;
                 currentSrcType = origin.PropertyType;
@@ -157,11 +197,13 @@ namespace MapperGeneric
             }
 
             ilGenerator.Emit(OpCodes.Ret); /* Return. */
-            emittedClass = typeBuilder.CreateType();
+            Type emittedClassType = typeBuilder.CreateType();
             ab.Save("MappingAssembly.dll");
 
-            addToCache(srcType, destType, attr, emittedClass);
-            return emittedClass;
+            MappingEmit instance = (MappingEmit)Activator.CreateInstance(emittedClassType, new object[] { values.ToArray() });
+            addToCache(srcType, destType, attr, instance);
+
+            return instance;
         }
     }
 }

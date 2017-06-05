@@ -13,7 +13,6 @@ namespace MapperReflect
 
         private Dictionary<string, string> dict = new Dictionary<string, string>();
 
-
         public Mapper(Type source, Type destination) {
             src = source;
             dest = destination;
