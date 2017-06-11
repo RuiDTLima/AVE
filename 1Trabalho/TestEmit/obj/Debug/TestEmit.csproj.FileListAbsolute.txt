@@ -6,3 +6,11 @@ D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execu
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.csprojResolveAssemblyReference.cache
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.dll
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\bin\Debug\TestEmit.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\bin\Debug\TestEmit.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\bin\Debug\MapperEmit.exe
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\bin\Debug\MapperEmit.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestEmit\obj\Debug\TestEmit.pdb

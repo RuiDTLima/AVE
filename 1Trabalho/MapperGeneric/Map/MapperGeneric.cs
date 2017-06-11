@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 
 namespace MapperGeneric {
-    public class Mapper<TSrc, TDest> : Mapper, IMapperGeneric<TSrc, TDest> {
-        private Mapping mapAtribute = new Mapping();
-        private ConstructorEmitter ctorEmitter = new ConstructorEmitter();
-        private Dictionary<string, string> dict = new Dictionary<string, string>();
-        private Dictionary<string, object> dictResult = new Dictionary<string, object>();
-
-        public Mapper(Type source, Type destination) : base(source, destination){
-        }
+    public class MapperGeneric<TSrc, TDest> : IMapperGeneric<TSrc, TDest> { 
+        
+        protected Mapping mapAtribute;
+        protected ConstructorEmitter ctorEmitter = new ConstructorEmitter();
+        protected Dictionary<string, string> namesDictionary = new Dictionary<string, string>();
+        protected Dictionary<string, Func<object>> functionsDictionary = new Dictionary<string, Func<object>>();
 
         public TDest Map(TSrc src) {
-            Type TSrcType = typeof(TSrc);
             if (src == null)
                 return default(TDest);
             Type dest = typeof(TDest);
-            Type ctorType = ctorEmitter.EmitClass(dest);
-            ConstructorEmit ctorEmited = (ConstructorEmit)Activator.CreateInstance(ctorType);
+            ConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest); 
             TDest destObject = (TDest) ctorEmited.createInstance(dest);
-            mapAtribute.Map(src, destObject, dict, dictResult);
+            mapAtribute.Map(src, destObject, namesDictionary, functionsDictionary);
             return destObject;
         }
 
@@ -39,20 +35,39 @@ namespace MapperGeneric {
             return x;
         }
 
+        
         public IEnumerable<TDest> MapLazy(IEnumerable<TSrc> src)
         {
             foreach (TSrc source in src) {
                 yield return Map(source);
             }
         }
-
-        public IMapper For<R>(string nameFrom, Func<object> func) {
-            object result;
-            if (!dictResult.TryGetValue(nameFrom, out result)) {
-                result = func.Invoke();
-                dictResult.Add(nameFrom, result);
-            }
+        
+        /* Change the current mapAtribute. */
+        public IMapperGeneric<TSrc, TDest> Bind(Mapping m)
+        {
+            mapAtribute = m;
             return this;
         }
+
+        /* Add a new entry match of names if it's not already contained in the dict. */
+
+        public IMapperGeneric<TSrc, TDest> Match(string nameFrom, string nameDest)
+        {
+            string aux = null;
+            if (!namesDictionary.TryGetValue(nameFrom, out aux))
+                namesDictionary.Add(nameFrom, nameDest);
+            return this;
+        }
+
+        public IMapperGeneric<TSrc, TDest> For<R>(string nameFrom, Func<R> func) where R : class
+        {
+
+            if (!functionsDictionary.ContainsKey(nameFrom))
+            {
+                functionsDictionary.Add(nameFrom, func);
+            }
+            return this;
+        } 
     }
 }

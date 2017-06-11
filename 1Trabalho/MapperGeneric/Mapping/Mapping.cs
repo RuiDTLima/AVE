@@ -19,14 +19,14 @@ namespace MapperGeneric
         }
         
         /* By default maps properties, but if Attribute isn't null maps fields as well. */
-        public virtual void Map(object srcObject, object destObject, Dictionary<string, string> dict, Dictionary<string, object> dictResult) {
+        public virtual void Map(object srcObject, object destObject, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult) {
             if (Attribute != null)
                 Fields.Map(srcObject, destObject, Attribute, dict, dictResult);
             Properties.Map(srcObject, destObject, Attribute, dict, dictResult);
         }
         
         /* To be redefined by extedend classes. */
-        public virtual void Map(object srcObject, object destObject, Type Attr, Dictionary<string, string> dict, Dictionary<string, object> dictResult) {
+        public virtual void Map(object srcObject, object destObject, Type Attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult) {
         }
     }
 }

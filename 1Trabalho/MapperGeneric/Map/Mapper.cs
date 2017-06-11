@@ -1,5 +1,4 @@
-﻿using MapperGeneric.Emiter;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MapperGeneric {
@@ -7,9 +6,10 @@ namespace MapperGeneric {
         private Type src;
         private Type dest;
 
-        private Mapping mapAtribute;
-        private ConstructorEmitter ctorEmitter = new ConstructorEmitter();
-        private Dictionary<string, string> dict = new Dictionary<string, string>();
+        protected Mapping mapAtribute;
+        protected ConstructorEmitter ctorEmitter = new ConstructorEmitter();
+        protected Dictionary<string, string> dict = new Dictionary<string, string>();
+        protected Dictionary<string, Func<object>> dictResult = new Dictionary<string, Func<object>>();
 
         public Mapper(Type source, Type destination) {
             src = source;
@@ -22,10 +22,9 @@ namespace MapperGeneric {
         public object Map(object srcObject) {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
-            Type ctorType = ctorEmitter.EmitClass(dest);
-            ConstructorEmit ctorEmited = (ConstructorEmit)Activator.CreateInstance(ctorType);
+            ConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest);
             object destObject = ctorEmited.createInstance(dest);
-            mapAtribute.Map(srcObject, destObject, dict);
+            mapAtribute.Map(srcObject, destObject, dict, dictResult);
             return destObject;
         }
 
@@ -47,9 +46,20 @@ namespace MapperGeneric {
         /* Add a new entry match of names if it's not already contained in the dict. */
         public IMapper Match(string nameFrom, string nameDest)
         {
-            String aux = null;
+            string aux = null;
             if (!dict.TryGetValue(nameFrom, out aux))
                 dict.Add(nameFrom, nameDest);
+            return this;
+        }
+
+        public IMapper For<R>(string nameFrom, Func<R> func) where R : class
+        {
+            Func<object> objectFunc;
+            if (!dictResult.TryGetValue(nameFrom, out objectFunc))
+            {
+                objectFunc = () => func();
+                dictResult.Add(nameFrom, objectFunc);
+            }
             return this;
         }
     }

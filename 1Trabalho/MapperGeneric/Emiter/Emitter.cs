@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace MapperGeneric {
     public abstract class Emitter {
-        public abstract MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, object> dictResult);
+        public abstract MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult);
 
-        public abstract Type EmitClass(Type destType);
+        public abstract ConstructorEmit EmitClass(Type destType);
 
         /* Contains the already emitted classes that maps the first type into second type. */
         protected Dictionary<KeyValuePair<Type, Type>, MappingEmit> emittedClasses = new Dictionary<KeyValuePair<Type, Type>, MappingEmit>();

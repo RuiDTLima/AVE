@@ -7,12 +7,12 @@ namespace MapperGeneric
 {
     public class FieldEmitter : Emitter
     {
-        public override Type EmitClass(Type destType)
+        public override ConstructorEmit EmitClass(Type destType)
         {
             throw new NotImplementedException();
         }
 
-        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, object> dictResult)
+        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult)
         {
             MappingEmit emittedClass;
 
@@ -31,12 +31,12 @@ namespace MapperGeneric
             
             FieldBuilder fbArray = typeBuilder.DefineField(
                 "values",
-                typeof(object[]),
+                typeof(Func<object>[]),
                 FieldAttributes.Private);
 
-            Type[] parametersType = { typeof(object[]) };
+            Type[] parametersType = { typeof(Func<object>[]) };
 
-            /* Define the constructor with object array as a parameter */
+            /* Define the constructor with Func<object> array as a parameter */
             ConstructorBuilder ctor1 = typeBuilder.DefineConstructor(
                 MethodAttributes.Public, 
                 CallingConventions.Standard, 
@@ -63,9 +63,9 @@ namespace MapperGeneric
 
             FieldInfo destiny, origin;
             string currentName;
-            object result;
+            Func<object> func;
             Type currentDestType, currentSrcType;
-            List<object> values = new List<object>();
+            List<Func<object>> values = new List<Func<object>>();
             int idx = 0;
             
             /* Verify if source type is an struct or a class, because in case of beeing a struct, it must save the reference and not the object,
@@ -130,18 +130,23 @@ namespace MapperGeneric
                 if (destiny == null || (attr != null && !destiny.IsDefined(attr)))
                     continue;
 
-                if (dictResult.TryGetValue(currentName, out result)) {
-                    values.Add(result);
+                currentDestType = destiny.FieldType;
+                currentSrcType = origin.FieldType;
+
+                if (dictResult.TryGetValue(currentName, out func)) {
+                    values.Add(func);
                     ilGenerator.Emit(OpCodes.Ldloc_2); /* Get destination object into evaluation stack. */
                     ilGenerator.Emit(OpCodes.Ldarg_0);
                     ilGenerator.Emit(OpCodes.Ldfld, fbArray);/*descritor do campo que tem referencia para o array de valores*/
-                    ilGenerator.Emit(OpCodes.Ldelem, idx++);
+                    ilGenerator.Emit(OpCodes.Ldc_I4_S, idx++);
+                    ilGenerator.Emit(OpCodes.Ldelem, typeof(Func<object>));
+
+                    ilGenerator.Emit(OpCodes.Callvirt, typeof(Func<object>).GetMethod("Invoke"));
+                    ilGenerator.Emit(OpCodes.Castclass, currentDestType);
+
                     ilGenerator.Emit(OpCodes.Stfld, destiny); /* Store the value in destination field info. */
                     continue;
                 }
-
-                currentDestType = destiny.FieldType;
-                currentSrcType = origin.FieldType;
 
                  /* If source and destination type are equal then set destination with source value
                   * else asks for a new mapper and tries to set its value
@@ -169,7 +174,7 @@ namespace MapperGeneric
                     ilGenerator.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle")); /* Call method GetTypeFrom handle to get the type of the handle that is in evaluation stack. */
                     ilGenerator.Emit(OpCodes.Ldtoken, currentDestType); /* Load the handle that contains the destination field type into evaluation stack. */
                     ilGenerator.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle")); /* Call method GetTypeFrom handle to get the type of the handle that is in evaluation stack. */
-                    ilGenerator.Emit(OpCodes.Call, typeof(AutoMapper).GetMethod("Build")); /* Call the method build from automapper to get the mapper. */
+                    ilGenerator.Emit(OpCodes.Call, typeof(AutoMapper).GetMethod("Build", new Type[] { typeof(Type), typeof(Type) })); /* Call the method build from automapper to get the mapper. */
       
                    /* Must verify if the mapper returned by the automapper isn't null.
                     * Its needed to duplicate the mapper and stores it into local stack because the method shall reach the end with

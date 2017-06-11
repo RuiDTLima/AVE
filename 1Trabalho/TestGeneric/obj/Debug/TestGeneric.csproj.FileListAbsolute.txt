@@ -1,0 +1,8 @@
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\obj\Debug\TestGeneric.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\bin\Debug\TestGeneric.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\bin\Debug\TestGeneric.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\bin\Debug\MapperGeneric.exe
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\bin\Debug\MapperGeneric.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\obj\Debug\TestGeneric.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\TestGeneric\obj\Debug\TestGeneric.pdb

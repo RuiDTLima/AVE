@@ -7,6 +7,8 @@ namespace MapperGeneric {
 
         IMapper Bind(Mapping m);
 
-        IMapper Match(String nameFrom, String nameDest);
+        IMapper Match(string nameFrom, string nameDest);
+
+        IMapper For<R>(string nameFrom, Func<R> func) where R : class;
     }
 }

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDifferenceTime", "TestD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapperGeneric", "MapperGeneric\MapperGeneric.csproj", "{20640800-5DAC-47B2-B407-62F2016DA218}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGeneric", "TestGeneric\TestGeneric.csproj", "{7DCE743F-CD5E-47B0-9E09-C730104FC3A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{20640800-5DAC-47B2-B407-62F2016DA218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20640800-5DAC-47B2-B407-62F2016DA218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20640800-5DAC-47B2-B407-62F2016DA218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DCE743F-CD5E-47B0-9E09-C730104FC3A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DCE743F-CD5E-47B0-9E09-C730104FC3A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DCE743F-CD5E-47B0-9E09-C730104FC3A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DCE743F-CD5E-47B0-9E09-C730104FC3A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

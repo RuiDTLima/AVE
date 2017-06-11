@@ -5,10 +5,10 @@ using System.Reflection.Emit;
 
 namespace MapperGeneric
 {
-    class ConstructorEmitter : Emitter
+    public class ConstructorEmitter : Emitter
     {
-        public override Type EmitClass(Type destType) {
-            Type emittedClass;
+        public override ConstructorEmit EmitClass(Type destType) {
+            ConstructorEmit emittedClass;
             /* Verify if the class to emit already exists and returns it. */
             if (IsInCache(destType, out emittedClass))
                 return emittedClass;
@@ -45,14 +45,14 @@ namespace MapperGeneric
             ilGenerator.Emit(OpCodes.Newobj, ctorInfo); /* Create the new object to return. */
             ilGenerator.Emit(OpCodes.Ret);
 
-            emittedClass = typeBuilder.CreateType();
+            Type emittedClassType = typeBuilder.CreateType();
             ab.Save("ConstructorAssembly.dll");
-
+            emittedClass = (ConstructorEmit)Activator.CreateInstance(emittedClassType);
             addToCache(destType, emittedClass);
             return emittedClass;
         }
 
-        public override Type EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, object> dictResult) {
+        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult) {
             throw new NotImplementedException();
         }
     }

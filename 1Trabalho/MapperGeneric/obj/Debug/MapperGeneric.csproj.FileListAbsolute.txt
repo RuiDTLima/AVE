@@ -1,0 +1,6 @@
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\obj\Debug\MapperGeneric.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\bin\Debug\MapperGeneric.exe.config
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\bin\Debug\MapperGeneric.exe
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\bin\Debug\MapperGeneric.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\obj\Debug\MapperGeneric.exe
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperGeneric\obj\Debug\MapperGeneric.pdb

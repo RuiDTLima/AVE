@@ -2,3 +2,8 @@ D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execu
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperReflect\bin\Debug\MapperReflect.pdb
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.dll
 D:\rui_l\Documentos\Universidade\2ºAno\2º Semestre\Ambientes Virtuais de Execução\Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\bin\Debug\MapperReflect.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\bin\Debug\MapperReflect.pdb
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.csprojResolveAssemblyReference.cache
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.dll
+C:\Users\Bruno\Desktop\AVE\1Trabalho\AVE\1Trabalho\MapperReflect\obj\Debug\MapperReflect.pdb
