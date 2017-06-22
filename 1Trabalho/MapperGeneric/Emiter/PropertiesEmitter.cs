@@ -6,14 +6,16 @@ using System.Reflection;
 namespace MapperGeneric
 {
     public class PropertiesEmitter : Emitter {
-        public override ConstructorEmit EmitClass(Type destType)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict, Dictionary<string, Func<object>> dictResult)
+        /* Contains the already emitted classes that maps the first type into second type. */
+        private Dictionary<KeyValuePair<Type, Type>, IMappingEmit> emittedClasses = new Dictionary<KeyValuePair<Type, Type>, IMappingEmit>();
+
+        /* Contains the already emitted classes that maps the first type into second type with custom attribute. */
+        private Dictionary<KeyValuePair<Type, Type>, IMappingEmit> emittedClassesAttribute = new Dictionary<KeyValuePair<Type, Type>, IMappingEmit>();
+
+        public override IMappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<String, String> dict, Dictionary<string, Func<object>> dictResult)
         {
-            MappingEmit emittedClass;
+            IMappingEmit emittedClass;
             /* Verify if the class to emit already exists and returns it. */
             if(IsInCache(srcType, destType, attr, out emittedClass))
                 return emittedClass;
@@ -26,7 +28,7 @@ namespace MapperGeneric
                                                                TypeAttributes.Public);
 
             /* Define that the emittied class is a Mapping */
-            typeBuilder.AddInterfaceImplementation(typeof(MappingEmit));
+            typeBuilder.AddInterfaceImplementation(typeof(IMappingEmit));
 
             FieldBuilder fbArray = typeBuilder.DefineField(
                 "values",
@@ -128,15 +130,15 @@ namespace MapperGeneric
                 if (dictResult.TryGetValue(currentName, out func)) {
                     values.Add(func);
                     ilGenerator.Emit(OpCodes.Ldloc_2); /* Get destination object into evaluation stack. */
-                    ilGenerator.Emit(OpCodes.Ldarg_0);
-                    ilGenerator.Emit(OpCodes.Ldfld, fbArray);/*descritor do campo que tem referencia para o array de valores*/
-                    ilGenerator.Emit(OpCodes.Ldc_I4_S, idx++);
-                    ilGenerator.Emit(OpCodes.Ldelem, typeof(Func<object>));
+                    ilGenerator.Emit(OpCodes.Ldarg_0); /* Load the object this into the stack. */
+                    ilGenerator.Emit(OpCodes.Ldfld, fbArray); /* Load the array containing the functions of this object into the stack. */
+                    ilGenerator.Emit(OpCodes.Ldc_I4_S, idx++); /* Load the index into the stack. */
+                    ilGenerator.Emit(OpCodes.Ldelem, typeof(Func<object>)); /* Load the function at the index into the stack. */
 
-                    ilGenerator.Emit(OpCodes.Callvirt, typeof(Func<object>).GetMethod("invoke"));
-                    ilGenerator.Emit(OpCodes.Castclass, currentDestType); 
+                    ilGenerator.Emit(OpCodes.Callvirt, typeof(Func<object>).GetMethod("Invoke")); /* Call the function. */
+                    ilGenerator.Emit(OpCodes.Castclass, currentDestType);  /* Cast it result to the current property type. */
 
-                    ilGenerator.Emit(OpCodes.Callvirt, destiny.GetSetMethod()); /* Store the value in destination field info. */
+                    ilGenerator.Emit(OpCodes.Callvirt, destiny.GetSetMethod()); /* Store the value in destination property info. */
                     continue;
                 }
 
@@ -208,10 +210,36 @@ namespace MapperGeneric
             Type emittedClassType = typeBuilder.CreateType();
             ab.Save("MappingAssembly.dll");
 
-            MappingEmit instance = (MappingEmit)Activator.CreateInstance(emittedClassType, new object[] { values.ToArray() });
+            IMappingEmit instance = (IMappingEmit)Activator.CreateInstance(emittedClassType, new object[] { values.ToArray() });
             addToCache(srcType, destType, attr, instance);
 
             return instance;
         }
+
+        /* Add the emitted class into cache. */
+        private void addToCache(Type srcType, Type destType, Type attr, IMappingEmit emittedClass)
+        {
+            KeyValuePair<Type, Type> key = new KeyValuePair<Type, Type>(srcType, destType);
+            if (attr == null)
+                emittedClasses.Add(key, emittedClass);
+            else
+                emittedClassesAttribute.Add(key, emittedClass);
+        }
+
+
+        /* Verify if for those types already exist a emitted class and if so affects it.  */
+        private bool IsInCache(Type srcType, Type destType, Type attr, out IMappingEmit emittedClass)
+        {
+            KeyValuePair<Type, Type> key = new KeyValuePair<Type, Type>(srcType, destType);
+            if (attr == null)
+                return emittedClasses.TryGetValue(key, out emittedClass);
+            return emittedClassesAttribute.TryGetValue(key, out emittedClass);
+        }
+
+        public override IConstructorEmit EmitClass(Type destType)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

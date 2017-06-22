@@ -7,8 +7,10 @@ namespace MapperGeneric
 {
     public class ConstructorEmitter : Emitter
     {
-        public override ConstructorEmit EmitClass(Type destType) {
-            ConstructorEmit emittedClass;
+        private Dictionary<Type, IConstructorEmit> emittedConstructors = new Dictionary<Type, IConstructorEmit>();
+
+        public override IConstructorEmit EmitClass(Type destType) {
+            IConstructorEmit emittedClass;
             /* Verify if the class to emit already exists and returns it. */
             if (IsInCache(destType, out emittedClass))
                 return emittedClass;
@@ -20,7 +22,7 @@ namespace MapperGeneric
                                                                TypeAttributes.Public);
 
             /* Define that the emittied class is a Mapping */
-            typeBuilder.AddInterfaceImplementation(typeof(ConstructorEmit));
+            typeBuilder.AddInterfaceImplementation(typeof(IConstructorEmit));
             /* Arrange the method that would look like public void Map(object srcObject, object destObject Type attribute, Dictionary<string, string> dic) */
             MethodBuilder methodBuilder = typeBuilder.DefineMethod("createInstance", MethodAttributes.Public | MethodAttributes.Virtual,
                                                                    typeof(object), new Type[] { typeof(Type) });
@@ -47,12 +49,22 @@ namespace MapperGeneric
 
             Type emittedClassType = typeBuilder.CreateType();
             ab.Save("ConstructorAssembly.dll");
-            emittedClass = (ConstructorEmit)Activator.CreateInstance(emittedClassType);
+            emittedClass = (IConstructorEmit)Activator.CreateInstance(emittedClassType);
             addToCache(destType, emittedClass);
             return emittedClass;
         }
 
-        public override MappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult) {
+        private bool IsInCache(Type Type, out IConstructorEmit emittedConstructor)
+        {
+            return emittedConstructors.TryGetValue(Type, out emittedConstructor);
+        }
+
+        private void addToCache(Type type, IConstructorEmit emittedConstructor)
+        {
+            emittedConstructors.Add(type, emittedConstructor);
+        }
+
+        public override IMappingEmit EmitClass(Type srcType, Type destType, Type attr, Dictionary<string, string> dict, Dictionary<string, Func<object>> dictResult) {
             throw new NotImplementedException();
         }
     }

@@ -2,7 +2,7 @@
 
 namespace MapperGeneric
 {
-    public interface ConstructorEmit
+    public interface IConstructorEmit
     {
         object createInstance(Type type);
     }

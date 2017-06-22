@@ -44,11 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\Cache.cs" />
-    <Compile Include="Emiter\ConstructorEmit.cs" />
+    <Compile Include="Emiter\IConstructorEmit.cs" />
     <Compile Include="Emiter\ConstructorEmitter.cs" />
     <Compile Include="Emiter\Emitter.cs" />
     <Compile Include="Emiter\FieldEmitter.cs" />
-    <Compile Include="Emiter\MappingEmit.cs" />
+    <Compile Include="Emiter\IMappingEmit.cs" />
     <Compile Include="Emiter\PropertiesEmitter.cs" />
     <Compile Include="Map\Mapper.cs" />
     <Compile Include="Mapping\Mapping.cs" />

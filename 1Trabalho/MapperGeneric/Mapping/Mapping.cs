@@ -4,12 +4,8 @@ using System.Collections.Generic;
 namespace MapperGeneric
 {
     public class Mapping {
-
-        private static MappingFields _Fields = new MappingFields();
-        public static MappingFields Fields { get { return _Fields;} set { } }
-
-        private static MappingProperties _Properties = new MappingProperties();
-        public static MappingProperties Properties { get { return _Properties; } set { } }
+        public static MappingFields Fields { get; set; } = new MappingFields();
+        public static MappingProperties Properties { get; set; } = new MappingProperties();
         private Type Attribute { get; set; }
 
         public Mapping() { }

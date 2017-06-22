@@ -22,7 +22,7 @@ namespace MapperGeneric {
         public object Map(object srcObject) {
             if (srcObject == null || !srcObject.GetType().Equals(src))
                 return null;
-            ConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest);
+            IConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest);
             object destObject = ctorEmited.createInstance(dest);
             mapAtribute.Map(srcObject, destObject, dict, dictResult);
             return destObject;

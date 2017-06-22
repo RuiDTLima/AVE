@@ -13,7 +13,7 @@ namespace MapperGeneric {
             if (src == null)
                 return default(TDest);
             Type dest = typeof(TDest);
-            ConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest); 
+            IConstructorEmit ctorEmited = ctorEmitter.EmitClass(dest); 
             TDest destObject = (TDest) ctorEmited.createInstance(dest);
             mapAtribute.Map(src, destObject, namesDictionary, functionsDictionary);
             return destObject;
